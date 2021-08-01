@@ -2,6 +2,9 @@ package com.zyd.sys.controller;
 
 
 import com.zyd.sys.Vo.LoginUserVo;
+import com.zyd.sys.entity.Log;
+
+import com.zyd.sys.service.LogService;
 import com.zyd.sys.util.JSONResult;
 import com.zyd.sys.util.SystemConstant;
 import org.apache.catalina.security.SecurityUtil;
@@ -13,7 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.Resource;
+import javax.annotation.Resources;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * <p>
@@ -27,6 +33,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/sys/user")
 public class UserController {
+
+    @Resource
+    private LogService logService;
 
     @PostMapping("/login")
     public JSONResult login(String loginname, String pwd, HttpServletRequest request){
@@ -43,6 +52,12 @@ public class UserController {
             LoginUserVo loginUserVo= (LoginUserVo) subject.getPrincipal();
             //保存当前用户
             request.getSession().setAttribute(SystemConstant.LOGINUSER,loginUserVo.getUser());
+            //登录日志
+            //操作内容，操作类型，操作人，操作人id，操作人ip，操作时间
+            Log log=new Log("用户登录",SystemConstant.LOGIN_ACTION,
+                    loginname,loginUserVo.getUser().getId(),
+                    request.getRemoteAddr(),new Date());
+            logService.save(log);
             return SystemConstant.SUCCESS;
                     } catch (AuthenticationException e) {
             e.printStackTrace();
