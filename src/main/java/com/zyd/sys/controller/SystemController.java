@@ -20,9 +20,18 @@ public class SystemController {
     }
 
 
-    @RequestMapping("desktopManager")
+    @RequestMapping("/desktopManager")
     public String toDesktopManager(){
 
         return "system/home/desktopManager";
+    }
+
+    /**
+     * 去到日志管理页面
+     * @return
+     */
+    @RequestMapping("/logManager")
+    public String toLogManager(){
+        return "system/log/logManager";
     }
 }
