@@ -8,6 +8,7 @@ import com.zyd.sys.Vo.LogVo;
 import com.zyd.sys.entity.Log;
 import com.zyd.sys.service.LogService;
 import com.zyd.sys.util.DataGridViewResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -37,10 +38,17 @@ public class LogController {
         IPage<Log> page=new Page<Log>(logVo.getPage(),logVo.getLimit()) ;
         //创建条件构造起
         QueryWrapper<Log> queryWrapper=new QueryWrapper<Log>();
+        //操作类型
+        queryWrapper.eq(StringUtils.isNotEmpty(logVo.getType()),"type",logVo.getType());
+        //操作人
+       queryWrapper.like(StringUtils.isNotEmpty(logVo.getLoginname()),"loginname",logVo.getLoginname());
+        //操作时间 大于等于创建时间ge 小于等于创建时间le
+        queryWrapper.ge(logVo.getStartTime()!=null,"createtime",logVo.getStartTime());
+        queryWrapper.le(logVo.getEndTime()!=null,"createtime",logVo.getEndTime());
         //调用查询日志列表的方法
-        IPage<Log> logIPage = logService.page(page, queryWrapper);
+        logService.page(page, queryWrapper);
         //返回数据 参数1：总页数;参数2：数据
-        return  new DataGridViewResult(logIPage.getTotal(),logIPage.getRecords());
+        return  new DataGridViewResult(page.getTotal(),page.getRecords());
     }
 }
 

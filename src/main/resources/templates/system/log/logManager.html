@@ -128,6 +128,7 @@
         //其中：submit()是layui中form表单的提交事件
         //doSearch是lay-filter的属性值
         form.on("submit(doSearch)",function (data) {
+
             //表格数据重载
             tableIns.reload({
                 where:data.field,//额外参数

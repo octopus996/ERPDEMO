@@ -1,6 +1,7 @@
 package com.zyd.sys.Vo;
 
 import com.zyd.sys.entity.Log;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -8,7 +9,9 @@ public class LogVo extends Log {
     private int page;//当前页码
     private int limit;//每页的个数
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;//开始时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;//结束时间
 
     public LogVo(){
