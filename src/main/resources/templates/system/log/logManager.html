@@ -69,8 +69,8 @@
     <table class="layui-hide" id="logTable" lay-filter="logTable"></table>
     <!-- 表格工具栏 -->
     <div id="logToolBar" style="display: none;">
-        <button type="button" lay-event="batchDelete" class="layui-btn layui-btn-sm layui-btn-danger">
-            <span class="layui-icon layui-icon-delete"></span>批量删除
+        <button type="button" lay-event="batchDelete"  class="layui-btn layui-btn-sm layui-btn-danger">
+            <span class="layui-icon layui-icon-delete"></span>批量删除2
         </button>
     </div>
 </div>
@@ -143,10 +143,15 @@
         //步骤1：头部工具栏按钮设置lay-event属性（ lay-event="batchDelete"）
         //步骤2：绑定表格的监听事件
         table.on('toolbar(logTable)',function (obj) {
+
+
             switch (obj.event) {
+
                 //监听批量删除按钮
                 case "batchDelete":
+                    alert(1);
                     batchDelete();//批量删除
+                    alert(1);
                     break;
             }
         });

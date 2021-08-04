@@ -8,6 +8,8 @@ import com.zyd.sys.Vo.LogVo;
 import com.zyd.sys.entity.Log;
 import com.zyd.sys.service.LogService;
 import com.zyd.sys.util.DataGridViewResult;
+import com.zyd.sys.util.JSONResult;
+import com.zyd.sys.util.SystemConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -49,6 +52,17 @@ public class LogController {
         logService.page(page, queryWrapper);
         //返回数据 参数1：总页数;参数2：数据
         return  new DataGridViewResult(page.getTotal(),page.getRecords());
+    }
+
+    @RequestMapping("/delete")
+    public JSONResult delete(String ids){
+        //将字符串拆分成字符数组
+        String[] idsStr=ids.split(",");
+        //判断是否删除
+        if (logService.removeByIds(Arrays.asList(idsStr))){
+            return SystemConstant.DELETE_SUCCESS;
+        }
+        return SystemConstant.DELETE_ERROR;
     }
 }
 
