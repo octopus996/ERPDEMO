@@ -143,7 +143,7 @@
         //渲染数据表格
         var tableIns = table.render({
             elem: '#noticeTable'//绑定表格组件的id元素
-            ,url:'/sys/notice/noticelist'//数据发送的请求路径
+            ,url:'/sys/notice/noticeList'//数据发送的请求路径
             ,toolbar: '#noticeToolBar' //开启头部工具栏，并为其绑定左侧模板
             ,title: '公告数据表'
             ,height:'full-180'
@@ -293,7 +293,7 @@
          */
         function deleteNotice(data) {
             layer.confirm("确定要删除这条数据吗?",{"icon":3,"title":"提示"},function (index) {
-                $.post("/sys/notice/deleteById",{"id":data.id},function (result) {
+                $.post("/sys/notice/delete",{"id":data.id},function (result) {
                     if(result.success){
                         //刷新表格
                         tableIns.reload();

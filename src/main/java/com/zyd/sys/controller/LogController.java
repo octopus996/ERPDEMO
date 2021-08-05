@@ -36,7 +36,7 @@ public class LogController {
     private LogService logService;
 
     @RequestMapping("/logList")
-    public DataGridViewResult login(LogVo logVo){
+    public DataGridViewResult log(LogVo logVo){
         //创建分页信息，参数1：当前页码；参数2：每页显示数量
         IPage<Log> page=new Page<Log>(logVo.getPage(),logVo.getLimit()) ;
         //创建条件构造起

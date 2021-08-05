@@ -6,7 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-public class LogVo extends Log {
+public class NoticeVo extends Notice {
     private int page;//当前页码
     private int limit;//每页的个数
 
@@ -15,24 +15,10 @@ public class LogVo extends Log {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;//结束时间
 
-    public LogVo(){
-
-    }
-
-    public LogVo(int page, int limit, Date startTime, Date endTime) {
-        this.page = page;
-        this.limit = limit;
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
-
-    public LogVo(String content, String type, String loginname, Integer userid, String loginip, Date createtime, int page, int limit, Date startTime, Date endTime) {
+    public NoticeVo(String content, String type, String loginname, Integer userid, String loginip, Date createtime) {
         super(content, type, loginname, userid, loginip, createtime);
-        this.page = page;
-        this.limit = limit;
-        this.startTime = startTime;
-        this.endTime = endTime;
     }
+
 
     public int getPage() {
         return page;
