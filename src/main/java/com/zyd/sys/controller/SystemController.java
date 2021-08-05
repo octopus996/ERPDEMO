@@ -34,4 +34,9 @@ public class SystemController {
     public String toLogManager(){
         return "system/log/logManager";
     }
+
+    @RequestMapping("toNoticeManager")
+    public  String toNoticeManager(){
+        return "system/notice/noticeManager";
+    }
 }
