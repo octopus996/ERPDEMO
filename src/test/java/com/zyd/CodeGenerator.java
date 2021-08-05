@@ -25,6 +25,7 @@ public class CodeGenerator {
     private static String parentPackage = "com.zyd";//顶级包结构
     private static String dao = "dao";//数据访问层包名称
     private static String service = "service";//业务逻辑层包名称
+
     private static String entity = "entity";//实体层包名称
     private static String controller = "controller";//控制器层包名称
     private static String mapperxml = "mapper";//mapper映射文件包名称
