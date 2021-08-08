@@ -67,7 +67,7 @@
     <!-- 头部工具栏 -->
     <div id="noticeToolBar" style="display: none;">
         <button type="button" lay-event="add" class="layui-btn layui-btn-sm"><span class="layui-icon layui-icon-add-1"></span>添加公告</button>
-        <button type="button" lay-event="batchDelete" class="layui-btn layui-btn-sm layui-btn-danger"><span class="layui-icon layui-icon-delete"></span>批量删除</button>
+        <button type="button" lay-event="batchDelete"  class="layui-btn layui-btn-sm layui-btn-danger"><span class="layui-icon layui-icon-delete"></span>批量删除</button>
     </div>
 
     <!-- 行工具栏 -->
@@ -194,7 +194,7 @@
                     break;
                 //批量删除
                 case 'batchDelete':
-
+                    batchDelete();
                     break;
             }
         });
@@ -326,6 +326,66 @@
             });
         }
 
+        //监听数据表格的头部工具栏时间
+        //步骤1：头部工具栏按钮设置lay-event属性（lay-event="batchDelete"）
+        //步骤2：绑定表格的监听事件
+        /*table.on('toolbar(noticeTable)',function(obj){
+            switch (obj.event) {
+                //监听批量删除按钮
+                    case "batchDelete":
+                        //批量删除
+                        batchDelete();
+                        
+                        break;
+
+            }
+        });*/
+        /**
+         * 批量删除
+         * 
+         */
+        function batchDelete() {
+            //获取选中的行
+            //noticeTable为lay-filter的属性
+            var checkStatus=table.checkStatus('noticeTable');
+            //获取选中的长度
+            var length=checkStatus.data.length;
+            //判断长度是否大于0
+            if (length>0){
+                //提示是否删除
+                layer.confirm("确定要删除这"+length+"条数据吗？",{icon:3,title:'提示'},function (index) {
+                    var checkData=checkStatus.data;
+                    //声明数组，保存选中行的id
+                    var idArr=[];
+                    for (var i=0;i<length;i++){
+                        //获取选中行的id
+                        idArr.push(checkData[i].id);
+                    }
+                    //id数组
+                    var ids=idArr.join(",");
+                    //发送删除请求
+                    $.post("/sys/notice/deleteNotice",{"ids":ids},function (result) {
+                        //判断是否成功
+                        if (result.success){
+                            //删除成功后刷新数据表格
+                            tableIns.reload();
+                        }
+                        layer.msg(result.message);//弹出提示信息
+
+                    },"json");
+                    //关闭提示框
+                    layer.close(index);
+
+                });
+            }else {
+                //没有选中行，提示请选择要删除的行
+                //layer.alert('请选中要删除的行！',{icon:0})
+                layer.msg(
+                    '请选择要删除的行！',{icon:0}
+                );
+            }
+
+        }
 
     });
 </script>

@@ -70,7 +70,7 @@ public class NoticeController {
      * @param session
      * @return
      */
-    @PostMapping("addNotice")
+    @PostMapping("/addNotice")
     public JSONResult addNotice(Notice notice, HttpSession session){
         //取创建人
         User user= (User) session.getAttribute(SystemConstant.LOGINUSER);
@@ -105,6 +105,23 @@ public class NoticeController {
            return SystemConstant.DELETE_SUCCESS;
         }
         return SystemConstant.DELETE_ERROR;
+    }
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @RequestMapping("/deleteNotice")
+    public JSONResult deleteNotice(String ids){
+        //将选中的id以“，”隔开
+        String [] idsStr=ids.split(",");
+        //判断是否删除
+        if (noticeService.removeByIds(Arrays.asList(idsStr))){
+            return SystemConstant.DELETE_SUCCESS;
+        }
+
+       return SystemConstant.DELETE_ERROR;
     }
 
 }
