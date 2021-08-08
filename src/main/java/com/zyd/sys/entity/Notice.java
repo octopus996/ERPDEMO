@@ -11,8 +11,8 @@ import java.io.Serializable;
  * 
  * </p>
  *
- * @author zyd
- * @since 2021-08-05
+ * @author KazuGin
+ * @since 2019-12-26
  */
 @TableName("sys_notice")
 public class Notice implements Serializable {
@@ -49,14 +49,12 @@ public class Notice implements Serializable {
      * 发布人
      */
     private String opername;
+
     public Notice(){
 
     }
 
     public Notice(String content, String type, String loginname, Integer userid, String loginip, Date createtime) {
-    }
-
-    public Notice(int page, int limit) {
     }
 
 

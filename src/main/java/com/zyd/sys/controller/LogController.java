@@ -55,11 +55,11 @@ public class LogController {
     }
 
     @RequestMapping("/delete")
-    public JSONResult delete(String ids){
+    public JSONResult delete(String id){
         //将字符串拆分成字符数组
-        String[] idsStr=ids.split(",");
+        String[] idStr=id.split(",");
         //判断是否删除
-        if (logService.removeByIds(Arrays.asList(idsStr))){
+        if (logService.removeByIds(Arrays.asList(idStr))){
             return SystemConstant.DELETE_SUCCESS;
         }
         return SystemConstant.DELETE_ERROR;
