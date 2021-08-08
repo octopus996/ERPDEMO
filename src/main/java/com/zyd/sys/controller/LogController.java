@@ -48,6 +48,10 @@ public class LogController {
         //操作时间 大于等于创建时间ge 小于等于创建时间le
         queryWrapper.ge(logVo.getStartTime()!=null,"createtime",logVo.getStartTime());
         queryWrapper.le(logVo.getEndTime()!=null,"createtime",logVo.getEndTime());
+
+        //根据创建时间降序
+        queryWrapper.orderByDesc("createtime");
+
         //调用查询日志列表的方法
         logService.page(page, queryWrapper);
         //返回数据 参数1：总页数;参数2：数据
@@ -55,9 +59,9 @@ public class LogController {
     }
 
     @RequestMapping("/delete")
-    public JSONResult delete(String id){
+    public JSONResult delete(String ids){
         //将字符串拆分成字符数组
-        String[] idStr=id.split(",");
+        String[] idStr=ids.split(",");
         //判断是否删除
         if (logService.removeByIds(Arrays.asList(idStr))){
             return SystemConstant.DELETE_SUCCESS;

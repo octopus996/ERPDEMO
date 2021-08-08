@@ -279,7 +279,7 @@
                     form.val("dataFrm",data);//参数1：dataFrm是form表单的lay-filter的属性值
                     //富文本回显
                     layedit.setContent(editIndex,data.content);
-                    //添加的提交请求
+                    //更新的提交请求
                     url = "/sys/notice/updateNotice";
                 }
             });
@@ -293,7 +293,7 @@
          */
         function deleteNotice(data) {
             layer.confirm("确定要删除这条数据吗?",{"icon":3,"title":"提示"},function (index) {
-                $.post("/sys/notice/delete",{"id":data.id},function (result) {
+                $.post("/sys/notice/deleteById",{"id":data.id},function (result) {
                     if(result.success){
                         //刷新表格
                         tableIns.reload();

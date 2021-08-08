@@ -1,6 +1,7 @@
 package com.zyd.sys.controller;
 
 
+import cn.hutool.json.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -52,6 +53,9 @@ public class NoticeController {
         queryWrapper.ge(noticeVo.getStartTime()!=null,"createtime",noticeVo.getStartTime());
         //结束时间
         queryWrapper.le(noticeVo.getEndTime()!=null,"createtime",noticeVo.getEndTime());
+        //根据创建时间降序
+        queryWrapper.orderByDesc("createtime");
+
         //调用查询内容的方法
         noticeService.page(page,queryWrapper);
 
@@ -60,6 +64,12 @@ public class NoticeController {
         return new DataGridViewResult(page.getTotal(),page.getRecords());
     }
 
+    /**
+     * 添加公告
+     * @param notice
+     * @param session
+     * @return
+     */
     @PostMapping("addNotice")
     public JSONResult addNotice(Notice notice, HttpSession session){
         //取创建人
@@ -73,12 +83,25 @@ public class NoticeController {
         return SystemConstant.ADD_ERROR;
     }
 
-    @RequestMapping("/delete")
-    public JSONResult delete(String id){
-        //将字符拆分未字符穿
-        String[] idStr=id.split(",");
+    /**
+     * 更新公告
+     * @param notice
+     * @return
+     */
+    @PostMapping("/updateNotice")
+    public JSONResult updateNotice(Notice notice){
+        notice.setModifytime(new Date());
+        if (noticeService.updateById(notice)){
+            return SystemConstant.UPDATE_SUCCESS;
+        }
+        return SystemConstant.UPDATE_ERROR;
+    }
+
+    @RequestMapping("/deleteById")
+    public JSONResult deleteById(String id){
+
         //判断是否删除
-        if (noticeService.removeByIds(Arrays.asList(idStr))){
+        if (noticeService.removeById(id)){
            return SystemConstant.DELETE_SUCCESS;
         }
         return SystemConstant.DELETE_ERROR;
