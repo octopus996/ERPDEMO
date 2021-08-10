@@ -28,7 +28,7 @@ public class MenuController {
      * @param session
      * @return
      */
-    @RequestMapping("LoadIndexLeftMenuTree")
+    @RequestMapping("/LoadIndexLeftMenuTree")
     public DataGridViewResult LoadIndexLeftMenuTree(HttpSession session){
 
         //创造条件构造器
