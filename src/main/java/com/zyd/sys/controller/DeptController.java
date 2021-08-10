@@ -2,11 +2,15 @@ package com.zyd.sys.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zyd.sys.Vo.DeptVo;
 import com.zyd.sys.entity.Dept;
 import com.zyd.sys.service.DeptService;
 import com.zyd.sys.util.DataGridViewResult;
 import com.zyd.sys.util.SystemConstant;
 import com.zyd.sys.util.TreeNode;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -47,6 +51,18 @@ public class DeptController {
         }
 
         return new DataGridViewResult(treeNodes);
+    }
+    @RequestMapping("deptlist")
+    public DataGridViewResult deptlist(DeptVo deptVo){
+
+        QueryWrapper<Dept> queryWrapper=new QueryWrapper<Dept>();
+        IPage<Dept> page=new Page<Dept>(deptVo.getPage(),deptVo.getLimit());
+        queryWrapper.like(StringUtils.isNotEmpty(deptVo.getTitle()),"title",deptVo.getTitle());
+        queryWrapper.like(StringUtils.isNoneEmpty(deptVo.getAddress()),"address",deptVo.getAddress());
+        queryWrapper.orderByAsc("id");
+        deptService.page(page,queryWrapper);
+
+        return new DataGridViewResult(page.getTotal(),page.getRecords());
     }
 
 }
