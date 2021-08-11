@@ -98,7 +98,7 @@ public class NoticeController {
     }
 
     @RequestMapping("/deleteById")
-    public JSONResult deleteById(String id){
+    public JSONResult deleteById(int id){
 
         //判断是否删除
         if (noticeService.removeById(id)){
