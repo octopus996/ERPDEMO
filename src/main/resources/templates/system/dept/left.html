@@ -45,6 +45,7 @@
 
         //监听树节点的点击事件
         dtree.on("node(deptTree)",function (obj) {
+            console.log(obj);
             window.parent.right.loadTableData(obj.param.nodeId);
         });
 

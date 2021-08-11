@@ -52,18 +52,27 @@ public class DeptController {
 
         return new DataGridViewResult(treeNodes);
     }
-    @RequestMapping("deptlist")
+    @RequestMapping("/deptlist")
     public DataGridViewResult deptlist(DeptVo deptVo){
-
+        //创建条件构造器对象
         QueryWrapper<Dept> queryWrapper=new QueryWrapper<Dept>();
+        //创建分页
         IPage<Dept> page=new Page<Dept>(deptVo.getPage(),deptVo.getLimit());
+        //部门名称查询
         queryWrapper.like(StringUtils.isNotEmpty(deptVo.getTitle()),"title",deptVo.getTitle());
+        //地址
         queryWrapper.like(StringUtils.isNoneEmpty(deptVo.getAddress()),"address",deptVo.getAddress());
+        //部门id
+        queryWrapper.eq(deptVo.getId()!=null,"id",deptVo.getId()).or().
+                eq(deptVo.getId()!=null,"pid",deptVo.getId());
+        //排序
         queryWrapper.orderByAsc("id");
+        //调用查询的方法
         deptService.page(page,queryWrapper);
-
+        //返回数据
         return new DataGridViewResult(page.getTotal(),page.getRecords());
     }
+
 
 }
 
