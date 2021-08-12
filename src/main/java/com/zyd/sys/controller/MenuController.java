@@ -1,10 +1,14 @@
 package com.zyd.sys.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zyd.sys.Vo.PermissionVo;
 import com.zyd.sys.entity.Permission;
 import com.zyd.sys.entity.User;
 import com.zyd.sys.service.PermissionService;
 import com.zyd.sys.util.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -71,12 +75,17 @@ public class MenuController {
         return new DataGridViewResult(build);
     }
 
+    /**
+     * 加载左侧菜单节点
+     * @return
+     */
     @RequestMapping("/loadMenuTreeLeft")
     public DataGridViewResult loadMenuTreeLeft(){
         //创造条件构造器
         QueryWrapper<Permission> queryWrapper=new QueryWrapper<Permission>();
         //菜单类型type只查询menu(type为menu的才是菜单)
         queryWrapper.eq("type",SystemConstant.TYPE_MENU);
+
         //查询所有菜单
         List<Permission> permissions = permissionService.list(queryWrapper);
         //创建集合保存权限菜单
@@ -100,5 +109,28 @@ public class MenuController {
         }
         //List<TreeNode> build = TreeNodeBuilder.build(treeNodes, 1);
         return new DataGridViewResult(treeNodes);
+    }
+
+    /**
+     * 遍历菜单列表
+     * @param permissionVo
+     * @return
+     */
+    @RequestMapping("/menulist")
+    public DataGridViewResult menulist(PermissionVo permissionVo){
+        //将建条件构造器
+        QueryWrapper<Permission> queryWrapper=new QueryWrapper();
+        //创建分页构造器
+        IPage page=new Page(permissionVo.getPage(),permissionVo.getLimit());
+        //搜索菜单名称
+        queryWrapper.like(StringUtils.isNotEmpty(permissionVo.getTitle()),"title",permissionVo.getTitle());
+        //id
+        queryWrapper.eq(permissionVo.getId()!=null,"id",permissionVo.getId()).or()
+                .eq(permissionVo.getId()!=null,"pid",permissionVo.getId());
+        //根据id排序
+        queryWrapper.orderByAsc("id");
+        //调用查询方法
+        permissionService.page(page,queryWrapper);
+        return  new DataGridViewResult(page.getTotal(),page.getRecords());
     }
 }
