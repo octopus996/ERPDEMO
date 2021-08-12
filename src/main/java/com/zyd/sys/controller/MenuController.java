@@ -1,5 +1,6 @@
 package com.zyd.sys.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,8 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 @RestController
@@ -133,4 +133,64 @@ public class MenuController {
         permissionService.page(page,queryWrapper);
         return  new DataGridViewResult(page.getTotal(),page.getRecords());
     }
+
+    /**
+     * 添加菜单
+     * @param permission
+     * @return
+     */
+    @RequestMapping("addMenu")
+    public JSONResult addMenu(Permission permission){
+        if (permissionService.save(permission)){
+            return  SystemConstant.ADD_SUCCESS;
+        }
+        return SystemConstant.ADD_ERROR;
+    }
+
+    /**
+     * 更新部门信息
+     * @param permission
+     * @return
+     */
+    @RequestMapping("updateMenu")
+    public JSONResult updateMenu(Permission permission){
+        if (permissionService.updateById(permission)){
+            return SystemConstant.UPDATE_SUCCESS;
+        }
+        return SystemConstant.UPDATE_ERROR;
+    }
+
+    /**
+     * 判断是否存在子部门
+     * @param id
+     * @return
+     */
+    @RequestMapping("checkMenuHasChildren")
+    public String checkMenuHasChildren(int id){
+        Map<String,Object> map=new HashMap<>();
+        QueryWrapper<Permission> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("pid",id);
+        if (permissionService.count(queryWrapper)>0){
+            map.put(SystemConstant.EXIST,true);
+            map.put(SystemConstant.MESSAGE,"存在子部门，无法删除！");
+        }else{
+            map.put(SystemConstant.EXIST,false);
+        }
+        return JSON.toJSONString(map);
+
+    }
+
+    /**
+     * 删除部门
+     * @param permission
+     * @return
+     */
+    @RequestMapping("deleteMenu")
+    public JSONResult deleteMenu(Permission permission){
+        if (permissionService.removeById(permission)){
+         return    SystemConstant.DELETE_SUCCESS;
+        }
+        return SystemConstant.DELETE_ERROR;
+    }
+
 }
