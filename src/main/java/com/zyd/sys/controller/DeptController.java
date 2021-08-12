@@ -117,7 +117,7 @@ public class DeptController {
      * @param id
      * @return
      */
-    @RequestMapping("checkDeptHasChildren")
+    @RequestMapping("/checkDeptHasChildren")
     public String checkDeptHasChildren(int id){
         Map<String,Object> map=new HashMap();
         //创建条件构造器
@@ -139,7 +139,7 @@ public class DeptController {
      * @param id
      * @return
      */
-    @RequestMapping("deleteById")
+    @RequestMapping("/deleteById")
     public JSONResult deleteById(int  id){
         if (deptService.removeById(id)){
             return SystemConstant.DELETE_SUCCESS;
