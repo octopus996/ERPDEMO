@@ -4,15 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zyd.sys.entity.Permission;
 import com.zyd.sys.entity.User;
 import com.zyd.sys.service.PermissionService;
-import com.zyd.sys.util.DataGridViewResult;
-import com.zyd.sys.util.SystemConstant;
-import com.zyd.sys.util.TreeNode;
-import com.zyd.sys.util.TreeNodeBuilder;
+import com.zyd.sys.util.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -71,5 +69,36 @@ public class MenuController {
         List<TreeNode> build = TreeNodeBuilder.build(treeNodes, 1);
 
         return new DataGridViewResult(build);
+    }
+
+    @RequestMapping("/loadMenuTreeLeft")
+    public DataGridViewResult loadMenuTreeLeft(){
+        //创造条件构造器
+        QueryWrapper<Permission> queryWrapper=new QueryWrapper<Permission>();
+        //菜单类型type只查询menu(type为menu的才是菜单)
+        queryWrapper.eq("type",SystemConstant.TYPE_MENU);
+        //查询所有菜单
+        List<Permission> permissions = permissionService.list(queryWrapper);
+        //创建集合保存权限菜单
+
+        List<TreeNode> treeNodes=new ArrayList<>();
+        //遍历权限菜单列表
+        for (Permission permission : permissions) {
+
+            TreeNode treeNode=new TreeNode();
+            //判断当前节点是否展开，是则为true,不是则为false
+            boolean spread=SystemConstant.SPREAD==permission.getOpen()?true:false;
+            treeNode.setSpread(spread);//是否打开
+            treeNode.setId(permission.getId());//菜单节点id
+            treeNode.setPid(permission.getPid());//菜单节点父id
+            treeNode.setTitle(permission.getTitle());//菜单名称
+            treeNode.setHref(permission.getHref());//菜单路径
+
+            //将树节点对象添加到树节点集合
+            treeNodes.add(treeNode);
+
+        }
+        //List<TreeNode> build = TreeNodeBuilder.build(treeNodes, 1);
+        return new DataGridViewResult(treeNodes);
     }
 }

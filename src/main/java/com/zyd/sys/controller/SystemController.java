@@ -60,4 +60,21 @@ public class SystemController {
     public String toDeptRight(){
         return "system/dept/right";
     }
+
+    /**
+     * 去到菜单管理
+     * @return
+     */
+    @RequestMapping("/toMenuManager")
+    public String toMenuManager(){
+        return "system/menu/menuManager";
+    }
+    @RequestMapping("/toMenuLeft")
+    public String toMenuLeft(){
+        return "system/menu/left";
+    }
+    @RequestMapping("/toMenuRight")
+    public String toMenuRight(){
+        return "system/menu/right";
+    }
 }
