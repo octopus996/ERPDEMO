@@ -121,7 +121,9 @@ public class MenuController {
         //将建条件构造器
         QueryWrapper<Permission> queryWrapper=new QueryWrapper();
         //创建分页构造器
-        IPage page=new Page(permissionVo.getPage(),permissionVo.getLimit());
+        IPage<Permission> page=new Page(permissionVo.getPage(),permissionVo.getLimit());
+        //只查询菜单名称
+        //queryWrapper.eq("type",SystemConstant.TYPE_MENU);
         //搜索菜单名称
         queryWrapper.like(StringUtils.isNotEmpty(permissionVo.getTitle()),"title",permissionVo.getTitle());
         //id
@@ -185,8 +187,8 @@ public class MenuController {
      * @param permission
      * @return
      */
-    @RequestMapping("deleteMenu")
-    public JSONResult deleteMenu(Permission permission){
+    @RequestMapping("/deleteById")
+    public JSONResult deleteById(Permission permission){
         if (permissionService.removeById(permission)){
          return    SystemConstant.DELETE_SUCCESS;
         }
