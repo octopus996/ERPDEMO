@@ -143,6 +143,7 @@ public class MenuController {
      */
     @RequestMapping("addMenu")
     public JSONResult addMenu(Permission permission){
+        permission.setType("menu");
         if (permissionService.save(permission)){
             return  SystemConstant.ADD_SUCCESS;
         }
