@@ -8,6 +8,7 @@ import com.zyd.sys.Vo.PermissionVo;
 import com.zyd.sys.entity.Permission;
 import com.zyd.sys.service.PermissionService;
 import com.zyd.sys.util.DataGridViewResult;
+import com.zyd.sys.util.JSONResult;
 import com.zyd.sys.util.SystemConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,11 @@ public class PermissionController {
     @Resource
     private PermissionService permissionService;
 
+    /**
+     * 权限列表
+     * @param permissionVo
+     * @return
+     */
     @RequestMapping("/permissionlist")
     public DataGridViewResult permissionlist(PermissionVo permissionVo){
         //创建分页构造器
@@ -53,5 +59,43 @@ public class PermissionController {
         return new DataGridViewResult(page.getTotal(),page.getRecords());
     }
 
+    /**
+     * 增加权限
+     * @param permission
+     * @return
+     */
+    @RequestMapping("/addPermission")
+    public JSONResult addPermission(Permission permission){
+        if (permissionService.save(permission)){
+            return SystemConstant.ADD_SUCCESS;
+        }
+        return SystemConstant.ADD_ERROR;
+    }
+
+    /**
+     * 更新权限
+     * @param permission
+     * @return
+     */
+    @RequestMapping("/updatePermission")
+    public JSONResult updatePermission(Permission permission){
+        if (permissionService.updateById(permission)){
+            return SystemConstant.UPDATE_SUCCESS;
+        }
+        return SystemConstant.UPDATE_ERROR;
+    }
+
+    /**
+     * 删除权限
+     * @param id
+     * @return
+     */
+    @RequestMapping("/deleteById")
+    public JSONResult deleteById(int id){
+        if (permissionService.removeById(id)){
+            return SystemConstant.DELETE_SUCCESS;
+        }
+        return SystemConstant.DELETE_ERROR;
+    }
 }
 
