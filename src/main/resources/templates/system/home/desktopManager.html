@@ -55,6 +55,7 @@
         //thymeleaf的行内写法
         //js中获取session的数据
         var loginName='[[${session.loginUser.name}]]';
+
         var dateObj = new Date(); //表示当前系统时间的Date对象
         var year = dateObj.getFullYear(); //当前系统时间的完整年份值
         var month = dateObj.getMonth()+1; //当前系统时间的月份值

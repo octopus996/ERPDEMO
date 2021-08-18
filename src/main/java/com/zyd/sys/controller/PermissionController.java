@@ -29,6 +29,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/sys/permission")
 public class PermissionController {
+
     @Resource
     private PermissionService permissionService;
 
