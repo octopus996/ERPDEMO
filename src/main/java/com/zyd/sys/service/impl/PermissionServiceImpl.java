@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -31,5 +32,10 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         //根据菜单id或权限id删除sys_role_permission
         permissionMapper.deleteRolePermissionByPid(id);
         return super.removeById(id);
+    }
+
+    @Override
+    public List<Integer> findRolePermissionByRoleId(int roleId) {
+        return permissionMapper.findRolePermissionByRoleId(roleId);
     }
 }

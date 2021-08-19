@@ -1,13 +1,9 @@
 package com.zyd.sys.service;
 
-import com.zyd.sys.dao.PermissionMapper;
 import com.zyd.sys.entity.Permission;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +16,5 @@ import java.io.Serializable;
 
 public interface PermissionService extends IService<Permission> {
 
+    List<Integer> findRolePermissionByRoleId(int roleId);
 }
