@@ -101,18 +101,21 @@ public class RoleController {
    }
 
    @RequestMapping("/saveRolePermission")
-   public JSONResult saveRolePermission(int id){
+   public JSONResult saveRolePermission(int rid,String ids){
 
-       return null;
+       if (roleService.saveRolePermission(rid,ids)){
+           return SystemConstant.DISTRIBUTE_SUCCESS;
+       }
+       return SystemConstant.DISTRIBUTE_ERROR;
    }
    @RequestMapping("/initPermissionByRoleId")
-    public DataGridViewResult initPermissionByRoleId(int roleId){
+    public DataGridViewResult initPermissionByRoleId(Integer roleId){
 
        //创建条件构造器
        QueryWrapper<Permission> queryWrapper=new QueryWrapper<>();
        //列出所有的权限
        List<Permission> permissionList = permissionService.list(queryWrapper);
-       //根据前端返回的角色id查询当前角色的权限id
+       //根据前端返回的角色id查询当前角色的权限pid有哪些
        List<Integer> currentRolePermissionIds = permissionService.findRolePermissionByRoleId(roleId);
        //根据当前角色的权限id去查询权限
        List<Permission> currentPermissions=new ArrayList<Permission>();
@@ -144,6 +147,7 @@ public class RoleController {
            treeNode.setId(p1.getId());
            treeNode.setSpread(spread);
            treeNode.setIcon(p1.getIcon());
+           treeNode.setCheckArr(checkArr);
            treeNodes.add(treeNode);
        }
        return new DataGridViewResult(treeNodes);

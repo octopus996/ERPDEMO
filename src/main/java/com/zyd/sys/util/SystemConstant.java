@@ -97,4 +97,37 @@ public interface SystemConstant {
     String MESSAGE = "message";
 
 
+    /**
+     * 权限分配成功
+     */
+    JSONResult DISTRIBUTE_SUCCESS = new JSONResult("权限分配成功", true);
+
+    /**
+     * 权限分配失败
+     */
+    JSONResult DISTRIBUTE_ERROR = new JSONResult("权限分配失败", false);
+
+    /**
+     * 普通用户
+     */
+    Integer NORMAL_USER = 1;
+
+    /**
+     * 用户默认的初始化密码
+     */
+    String DEFAULT_PWD = "123456";
+    /**
+     * 加密次数
+     */
+    Integer HASHITERATIONS = 2;
+
+    /**
+     * 重置成功
+     */
+    JSONResult RESET_SUCCESS = new JSONResult("重置成功", true);
+
+    /**
+     * 重置失败
+     */
+    JSONResult RESET_ERROR = new JSONResult("重置失败", false);
 }
