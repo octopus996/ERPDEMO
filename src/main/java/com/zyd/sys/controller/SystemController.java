@@ -103,4 +103,21 @@ public class SystemController {
     public String toRoleManager(){
         return "system/role/roleManager";
     }
+
+    /***
+     * 去到用户管理页面
+     * @return
+     */
+    @RequestMapping("/toUserManager")
+    public String toUserManager(){
+        return "system/user/userManager";
+    }
+    @RequestMapping("toUserLeft")
+    public String toUserLeft(){
+        return "system/user/left";
+    }
+    @RequestMapping("toUserRight")
+    public String toUserRight(){
+        return "system/user/right";
+    }
 }
