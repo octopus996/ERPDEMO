@@ -1,5 +1,6 @@
 package com.zyd.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -90,6 +91,36 @@ public class User implements Serializable {
      * 备注
      */
     private String remark;
+
+    /**
+     * 部门名称
+     * 该字段在数据库中不存在，所以要加@TableField
+     */
+    @TableField(exist = false)
+    private String deptName;
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getMgrName() {
+        return mgrName;
+    }
+
+    public void setMgrName(String mgrName) {
+        this.mgrName = mgrName;
+    }
+
+    /**
+     * 领导人名称
+     *
+     */
+    @TableField(exist = false)
+    private String mgrName;
 
 
     public Integer getId() {

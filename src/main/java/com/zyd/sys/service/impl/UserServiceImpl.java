@@ -1,6 +1,8 @@
 package com.zyd.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zyd.sys.Vo.UserVo;
 import com.zyd.sys.entity.User;
 import com.zyd.sys.dao.UserMapper;
 import com.zyd.sys.service.UserService;
@@ -33,5 +35,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.eq("loginname",userName);
 
         return userMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public IPage<User> findUserListByPage(IPage<User> page, UserVo userVo) {
+        return userMapper.findUserListByPage(page,userVo);
+
     }
 }

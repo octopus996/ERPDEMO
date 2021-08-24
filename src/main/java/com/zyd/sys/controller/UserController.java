@@ -1,10 +1,15 @@
 package com.zyd.sys.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyd.sys.Vo.LoginUserVo;
+import com.zyd.sys.Vo.UserVo;
 import com.zyd.sys.entity.Log;
 
 import com.zyd.sys.service.LogService;
+import com.zyd.sys.service.UserService;
+import com.zyd.sys.util.DataGridViewResult;
 import com.zyd.sys.util.JSONResult;
 import com.zyd.sys.util.SystemConstant;
 import org.apache.catalina.security.SecurityUtil;
@@ -36,6 +41,8 @@ public class UserController {
 
     @Resource
     private LogService logService;
+    @Resource
+    private UserService userService;
 
     @PostMapping("/login")
     public JSONResult login(String loginname, String pwd, HttpServletRequest request){
@@ -66,6 +73,18 @@ public class UserController {
 
         return SystemConstant.ERROR;
     }
+
+    @RequestMapping("/userlist")
+    public DataGridViewResult userlist(UserVo userVo){
+
+        IPage page=new Page(userVo.getPage(),userVo.getLimit());
+
+        IPage userListByPage = userService.findUserListByPage(page, userVo);
+
+
+        return new DataGridViewResult(userListByPage.getTotal(),userListByPage.getRecords());
+    }
+
 
 }
 
