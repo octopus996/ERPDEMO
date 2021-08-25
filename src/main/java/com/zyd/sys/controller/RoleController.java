@@ -100,6 +100,12 @@ public class RoleController {
        return SystemConstant.DELETE_ERROR;
    }
 
+    /**
+     * 保存人员的权限
+     * @param rid
+     * @param ids
+     * @return
+     */
    @RequestMapping("/saveRolePermission")
    public JSONResult saveRolePermission(int rid,String ids){
 
@@ -108,6 +114,13 @@ public class RoleController {
        }
        return SystemConstant.DISTRIBUTE_ERROR;
    }
+
+    /**
+     * 初始化人员权限
+     *
+     * @param roleId
+     * @return
+     */
    @RequestMapping("/initPermissionByRoleId")
     public DataGridViewResult initPermissionByRoleId(Integer roleId){
 
