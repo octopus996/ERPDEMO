@@ -1,17 +1,18 @@
 package com.zyd.sys.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyd.sys.Vo.LoginUserVo;
 import com.zyd.sys.Vo.UserVo;
 import com.zyd.sys.entity.Log;
 
+import com.zyd.sys.entity.User;
 import com.zyd.sys.service.LogService;
 import com.zyd.sys.service.UserService;
-import com.zyd.sys.util.DataGridViewResult;
-import com.zyd.sys.util.JSONResult;
-import com.zyd.sys.util.SystemConstant;
+import com.zyd.sys.util.*;
 import org.apache.catalina.security.SecurityUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -25,6 +26,9 @@ import javax.annotation.Resource;
 import javax.annotation.Resources;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -85,6 +89,57 @@ public class UserController {
         return new DataGridViewResult(userListByPage.getTotal(),userListByPage.getRecords());
     }
 
+    @RequestMapping("/loadUserByDeptId")
+    public DataGridViewResult loadUserByDeptId(Integer deptId){
+        //创建条件构造器
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        //只查询普通用户
+        queryWrapper.eq("type",SystemConstant.NORMAL_USER);
+        //查询该部门下的所有人
+        queryWrapper.eq(deptId!=null,"deptid",deptId);
+        //返回数据
+        List<User> users = userService.list(queryWrapper);
+        return new DataGridViewResult(users);
+    }
 
+    /**
+     * 验证用户名是否存在
+     * @param loginName
+     * @return
+     */
+    @RequestMapping("/checkLoginName")
+    public String checkLoginName(String loginName){
+        Map<String,Object> map=new HashMap<>();
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("loginname",loginName);
+        if (userService.list(queryWrapper).size()>0){
+            map.put(SystemConstant.EXIST,true);
+            map.put(SystemConstant.MESSAGE,"登录名已存在，请重新输入!");
+        }else {
+            map.put(SystemConstant.EXIST,false);
+            map.put(SystemConstant.MESSAGE,"用户名可以使用！");
+
+        }
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping("/addUser")
+    public JSONResult addUser(User user){
+        //入职日期
+        user.setHiredate(new Date());
+        //盐值
+        String salt= UUIDUtil.randomUUID();
+        //默认密码(默认密码123456，盐值，加密次数）
+        user.setLoginpwd(PasswordUtil.md5(SystemConstant.DEFAULT_PWD,salt,SystemConstant.HASHITERATIONS));
+        //用户类型
+        user.setType(SystemConstant.NORMAL_USER);
+        //默认头像
+        user.setImgpath("defaultImage.jpg");
+        //调用新增用户
+        if (userService.save(user)){
+            return SystemConstant.ADD_SUCCESS;
+        }
+        return SystemConstant.ADD_ERROR;
+    }
 }
 
