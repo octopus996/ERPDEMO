@@ -123,6 +123,11 @@ public class UserController {
         return JSON.toJSONString(map);
     }
 
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
     @RequestMapping("/addUser")
     public JSONResult addUser(User user){
         //入职日期
@@ -135,11 +140,14 @@ public class UserController {
         user.setType(SystemConstant.NORMAL_USER);
         //默认头像
         user.setImgpath("defaultImage.jpg");
+        //设置盐值
+        user.setSalt(salt);
         //调用新增用户
         if (userService.save(user)){
             return SystemConstant.ADD_SUCCESS;
         }
         return SystemConstant.ADD_ERROR;
     }
+
 }
 
