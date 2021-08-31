@@ -33,7 +33,7 @@ public interface UserMapper extends BaseMapper<User> {
     IPage<User> findUserListByPage(@Param("page") IPage<User> page, @Param("user") UserVo userVo);
 
     @Delete("delete from sys_role_user where uid=#{id}")
-    void deleteRoleUserId(Serializable id);
+    void deleteRoleByUserId(Serializable id);
 
     @Insert("insert into sys_role_user(rid,uid) values(#{rid},#{uid})")
     boolean saveUserRole(@Param("rid") int userId, @Param("uid") String roleIds);

@@ -46,7 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public boolean removeById(Serializable id) {
-        userMapper.deleteRoleUserId(id);
+        userMapper.deleteRoleByUserId(id);
         return super.removeById(id);
     }
 
