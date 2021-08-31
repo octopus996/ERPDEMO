@@ -13,17 +13,17 @@ import com.zyd.sys.entity.User;
 import com.zyd.sys.service.LogService;
 import com.zyd.sys.service.UserService;
 import com.zyd.sys.util.*;
-import org.apache.catalina.security.SecurityUtil;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
+
 
 import javax.annotation.Resource;
-import javax.annotation.Resources;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
@@ -148,6 +148,38 @@ public class UserController {
         }
         return SystemConstant.ADD_ERROR;
     }
+    @RequestMapping("/loadUserById")
+    public DataGridViewResult loadUserById(Integer id){
+        return new  DataGridViewResult(userService.getById(id));
+    }
 
+    @RequestMapping("/updateUser")
+    public JSONResult updateUser(User user){
+
+        if (userService.updateById(user)){
+            return SystemConstant.UPDATE_SUCCESS;
+        }
+        return SystemConstant.UPDATE_ERROR;
+    }
+
+    /**
+     * 重置密码
+     * @param user
+     * @return
+     */
+    @RequestMapping("/resetPwd")
+    public JSONResult resetPwd(User user){
+        //盐值
+        String salt=UUIDUtil.randomUUID();
+        //重置密码
+        user.setLoginpwd(PasswordUtil.md5(SystemConstant.DEFAULT_PWD,salt,SystemConstant.HASHITERATIONS));
+        //重新设置盐值
+        user.setSalt(salt);
+
+        if (userService.updateById(user)){
+            return SystemConstant.RESET_SUCCESS;
+        }
+        return SystemConstant.RESET_ERROR;
+    }
 }
 
