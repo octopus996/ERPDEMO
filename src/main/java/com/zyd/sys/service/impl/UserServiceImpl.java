@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -41,5 +42,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public IPage<User> findUserListByPage(IPage<User> page, UserVo userVo) {
         return userMapper.findUserListByPage(page,userVo);
 
+    }
+
+    @Override
+    public boolean removeById(Serializable id) {
+        userMapper.deleteRoleUserId(id);
+        return super.removeById(id);
+    }
+
+    @Override
+    public boolean saveUserRole(int userId, String roleIds) {
+        return userMapper.saveUserRole(userId,roleIds);
     }
 }

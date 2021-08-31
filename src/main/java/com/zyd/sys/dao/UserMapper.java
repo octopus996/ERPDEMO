@@ -5,7 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyd.sys.Vo.UserVo;
 import com.zyd.sys.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -27,6 +31,12 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     IPage<User> findUserListByPage(@Param("page") IPage<User> page, @Param("user") UserVo userVo);
+
+    @Delete("delete from sys_role_user where uid=#{id}")
+    void deleteRoleUserId(Serializable id);
+
+    @Insert("insert into sys_role_user(rid,uid) values(#{rid},#{uid})")
+    boolean saveUserRole(@Param("rid") int userId, @Param("uid") String roleIds);
 
 
 }

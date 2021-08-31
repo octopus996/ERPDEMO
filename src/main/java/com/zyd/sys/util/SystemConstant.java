@@ -130,4 +130,13 @@ public interface SystemConstant {
      * 重置失败
      */
     JSONResult RESET_ERROR = new JSONResult("重置失败", false);
+    /**
+     * 角色分配成功
+     */
+    JSONResult DISTRIBUTE_ROLE_SUCCESS =new JSONResult("角色分配成功！",true);
+
+    /**
+     * 角色分配失败
+     */
+    JSONResult DISTRIBUTE_ROLE_FALSE = new JSONResult("角色分配失败！",false);
 }

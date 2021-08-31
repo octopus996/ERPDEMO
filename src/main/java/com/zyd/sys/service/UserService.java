@@ -26,4 +26,5 @@ public interface UserService extends IService<User> {
 
     IPage<User> findUserListByPage(IPage<User> page,UserVo userVo);
 
+    boolean saveUserRole(int userId, String roleIds);
 }

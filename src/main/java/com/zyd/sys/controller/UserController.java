@@ -181,5 +181,12 @@ public class UserController {
         }
         return SystemConstant.RESET_ERROR;
     }
+    @RequestMapping("/saveUserRole")
+    public JSONResult saveUserRole(int userId,String roleIds){
+        if (userService.saveUserRole(userId,roleIds)){
+            return SystemConstant.DISTRIBUTE_ROLE_SUCCESS;
+        }
+        return SystemConstant.DISTRIBUTE_ROLE_FALSE;
+    }
 }
 
