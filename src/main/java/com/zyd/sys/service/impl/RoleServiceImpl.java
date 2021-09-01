@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -46,5 +47,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<Integer> findRoleByUserId(Integer id) {
+        return roleMapper.findRoleByUserId(id);
     }
 }

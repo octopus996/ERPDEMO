@@ -29,5 +29,5 @@ public interface UserService extends IService<User> {
 
     boolean saveUserRole(int userId, String roleIds);
 
-    List<Integer> findRoleByUserId(Integer id);
+
 }

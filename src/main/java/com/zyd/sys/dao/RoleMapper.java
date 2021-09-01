@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -26,9 +28,6 @@ public interface RoleMapper extends BaseMapper<Role> {
     @Insert(" insert into sys_role_permission(rid,pid)  values(#{rid},#{pid})")
     void insertRolePermissoin(@Param("rid") int rid, @Param("pid") String pid);
 
-
-
-
-
-    
+    @Select("select rid from sys_role_user where uid=#{id}")
+    List<Integer> findRoleByUserId(@Param("uid") Integer id);
 }

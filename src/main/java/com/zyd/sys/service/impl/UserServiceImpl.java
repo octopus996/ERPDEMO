@@ -56,8 +56,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.saveUserRole(userId,roleIds);
     }
 
-    @Override
-    public List<Integer> findRoleByUserId(Integer id) {
-        return userMapper.findRoleByUserId(id);
-    }
+
 }

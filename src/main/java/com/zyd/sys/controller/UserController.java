@@ -9,8 +9,10 @@ import com.zyd.sys.Vo.LoginUserVo;
 import com.zyd.sys.Vo.UserVo;
 import com.zyd.sys.entity.Log;
 
+import com.zyd.sys.entity.Role;
 import com.zyd.sys.entity.User;
 import com.zyd.sys.service.LogService;
+import com.zyd.sys.service.RoleService;
 import com.zyd.sys.service.UserService;
 import com.zyd.sys.util.*;
 
@@ -44,6 +46,8 @@ public class UserController {
     private LogService logService;
     @Resource
     private UserService userService;
+    @Resource
+    private RoleService roleService;
 
     @PostMapping("/login")
     public JSONResult login(String loginname, String pwd, HttpServletRequest request){
@@ -188,23 +192,23 @@ public class UserController {
     @RequestMapping("/initRoleByUserId")
     public DataGridViewResult initRoleByUserId(Integer id){
         //创建条件构造起
-        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        QueryWrapper<Role> queryWrapper=new QueryWrapper<>();
         //列出所有的角色
-        List<User> userList = userService.list(queryWrapper);
+        List<Role> roleList = roleService.list(queryWrapper);
         //根据用户id查询当前用户的所有角色
-        List<Integer> currentUserIds=userService.findRoleByUserId(id);
+        List<Integer> currentUserIds=roleService.findRoleByUserId(id);
         //根据角色id查询所有的角色
-        List<User> users=new ArrayList<>();
+        List<Role> roles=new ArrayList<>();
         //判断当前用户是否拥有角色
         if (currentUserIds!=null && currentUserIds.size()>0){
             queryWrapper.in("id",currentUserIds);
-            userService.list(queryWrapper);
+            roleService.list(queryWrapper);
         }
 
-        for (User u1:userList){
+        for (Role r1:roleList){
             String checkArr="0";//不选中
-            for (User u2: users){
-                if (u1.getId() == u2.getId()){
+            for (Role r2: roles){
+                if (r1.getId() == r2.getId()){
                     checkArr="1";
                     break;
                 }
