@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zyd.sys.Vo.UserVo;
 import com.zyd.sys.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -27,4 +28,6 @@ public interface UserService extends IService<User> {
     IPage<User> findUserListByPage(IPage<User> page,UserVo userVo);
 
     boolean saveUserRole(int userId, String roleIds);
+
+    List<Integer> findRoleByUserId(Integer id);
 }

@@ -25,10 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -188,5 +185,34 @@ public class UserController {
         }
         return SystemConstant.DISTRIBUTE_ROLE_FALSE;
     }
+    @RequestMapping("/initRoleByUserId")
+    public DataGridViewResult initRoleByUserId(Integer id){
+        //创建条件构造起
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        //列出所有的角色
+        List<User> userList = userService.list(queryWrapper);
+        //根据用户id查询当前用户的所有角色
+        List<Integer> currentUserIds=userService.findRoleByUserId(id);
+        //根据角色id查询所有的角色
+        List<User> users=new ArrayList<>();
+        //判断当前用户是否拥有角色
+        if (currentUserIds!=null && currentUserIds.size()>0){
+            queryWrapper.in("id",currentUserIds);
+            userService.list(queryWrapper);
+        }
+
+        for (User u1:userList){
+            String checkArr="0";//不选中
+            for (User u2: users){
+                if (u1.getId() == u2.getId()){
+                    checkArr="1";
+                    break;
+                }
+            }
+
+        }
+        return  new DataGridViewResult(queryWrapper);
+    }
+
 }
 

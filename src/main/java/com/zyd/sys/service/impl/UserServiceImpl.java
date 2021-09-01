@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -53,5 +54,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean saveUserRole(int userId, String roleIds) {
         return userMapper.saveUserRole(userId,roleIds);
+    }
+
+    @Override
+    public List<Integer> findRoleByUserId(Integer id) {
+        return userMapper.findRoleByUserId(id);
     }
 }
