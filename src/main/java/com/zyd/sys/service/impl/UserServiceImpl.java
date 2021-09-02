@@ -53,7 +53,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public boolean saveUserRole(int userId, String roleIds) {
-        return userMapper.saveUserRole(userId,roleIds);
+        try {
+            //先将原来的角色删除掉
+            userMapper.deleteRoleByUserId(userId);
+            //插入选择的角色id
+            String[] ids=roleIds.split(",");
+            for (int i=0;i<ids.length;i++){
+                userMapper.insertUserRole(userId,ids[i]);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

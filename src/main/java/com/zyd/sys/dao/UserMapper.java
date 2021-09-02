@@ -37,8 +37,11 @@ public interface UserMapper extends BaseMapper<User> {
     @Delete("delete from sys_role_user where uid=#{id}")
     void deleteRoleByUserId(Serializable id);
 
-    @Insert("insert into sys_role_user(rid,uid) values(#{rid},#{uid})")
-    boolean saveUserRole(@Param("rid") int userId, @Param("uid") String roleIds);
+    @Insert("insert into sys_user_role(uid,rid) values(#{uid},#{rid})")
+    void insertUserRole(@Param("uid") int userId,@Param("rid") String id);
+
+
+
 
 
 }

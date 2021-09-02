@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -29,5 +29,5 @@ public interface RoleMapper extends BaseMapper<Role> {
     void insertRolePermissoin(@Param("rid") int rid, @Param("pid") String pid);
 
     @Select("select rid from sys_role_user where uid=#{id}")
-    List<Integer> findRoleByUserId(@Param("uid") Integer id);
+    Set<Integer> findRoleByUserId(Integer id);
 }

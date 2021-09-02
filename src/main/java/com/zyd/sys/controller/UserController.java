@@ -1,6 +1,5 @@
 package com.zyd.sys.controller;
 
-
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -9,7 +8,7 @@ import com.zyd.sys.Vo.LoginUserVo;
 import com.zyd.sys.Vo.UserVo;
 import com.zyd.sys.entity.Log;
 
-import com.zyd.sys.entity.Role;
+
 import com.zyd.sys.entity.User;
 import com.zyd.sys.service.LogService;
 import com.zyd.sys.service.RoleService;
@@ -190,33 +189,27 @@ public class UserController {
         return SystemConstant.DISTRIBUTE_ROLE_FALSE;
     }
     @RequestMapping("/initRoleByUserId")
-    public DataGridViewResult initRoleByUserId(Integer id){
-        //创建条件构造起
-        QueryWrapper<Role> queryWrapper=new QueryWrapper<>();
-        //列出所有的角色
-        List<Role> roleList = roleService.list(queryWrapper);
-        //根据用户id查询当前用户的所有角色
-        List<Integer> currentUserIds=roleService.findRoleByUserId(id);
-        //根据角色id查询所有的角色
-        List<Role> roles=new ArrayList<>();
-        //判断当前用户是否拥有角色
-        if (currentUserIds!=null && currentUserIds.size()>0){
-            queryWrapper.in("id",currentUserIds);
-            roleService.list(queryWrapper);
-        }
-
-        for (Role r1:roleList){
+    public DataGridViewResult initRoleByUserId(Integer id) {
+        //查询所有的角色列表
+        List<Map<String, Object>> mapList = roleService.listMaps();
+        //根据前端传来的uid查询该用户
+        Set<Integer> roleByUserId = roleService.findRoleByUserId(id);
+        for (Map<String, Object> mapRoleId:mapList){
             String checkArr="0";//不选中
-            for (Role r2: roles){
-                if (r1.getId() == r2.getId()){
-                    checkArr="1";
-                    break;
+            //取出所有角色的id
+            int roleId = (int) mapRoleId.get("id");
+            for (Integer currentRoleId:roleByUserId){
+                if(roleId == currentRoleId){
+                   checkArr="1";
+                   break;
                 }
             }
-
+            mapRoleId.put("LAY_CHECKED",checkArr);
         }
-        return  new DataGridViewResult(queryWrapper);
+
+        return new DataGridViewResult(Long.valueOf(mapList.size()),mapList);
     }
+
 
 }
 

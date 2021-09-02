@@ -4,6 +4,7 @@ import com.zyd.sys.entity.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -17,5 +18,5 @@ public interface RoleService extends IService<Role> {
 
     boolean saveRolePermission(int rid, String ids);
 
-    List<Integer> findRoleByUserId(Integer id);
+    Set<Integer> findRoleByUserId(Integer id);
 }

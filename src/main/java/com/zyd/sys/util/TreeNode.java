@@ -18,7 +18,34 @@ public class TreeNode {
     private String icon;//菜单节点图标
     private String href;//菜单路径
     private Boolean spread;//是否展开
-    private String checkArr="0";
+    private String checkArr="0";//是否选中
+    private String rolecode;//角色编码
+    private String rolename;//角色名称
+    private String remark;//备注
+
+    public String getRolecode() {
+        return rolecode;
+    }
+
+    public void setRolecode(String rolecode) {
+        this.rolecode = rolecode;
+    }
+
+    public String getRolename() {
+        return rolename;
+    }
+
+    public void setRolename(String rolename) {
+        this.rolename = rolename;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public String getCheckArr() {
         return checkArr;

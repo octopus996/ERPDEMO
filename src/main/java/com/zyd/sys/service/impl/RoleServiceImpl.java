@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -50,7 +51,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public List<Integer> findRoleByUserId(Integer id) {
-        return roleMapper.findRoleByUserId(id);
+    public Set<Integer> findRoleByUserId(Integer id) {
+        return  roleMapper.findRoleByUserId(id);
     }
 }
