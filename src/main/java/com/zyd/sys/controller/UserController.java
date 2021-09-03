@@ -181,13 +181,7 @@ public class UserController {
         }
         return SystemConstant.RESET_ERROR;
     }
-    @RequestMapping("/saveUserRole")
-    public JSONResult saveUserRole(int userId,String roleIds){
-        if (userService.saveUserRole(userId,roleIds)){
-            return SystemConstant.DISTRIBUTE_ROLE_SUCCESS;
-        }
-        return SystemConstant.DISTRIBUTE_ROLE_FALSE;
-    }
+
     @RequestMapping("/initRoleByUserId")
     public DataGridViewResult initRoleByUserId(Integer id) {
         //查询所有的角色列表
@@ -195,12 +189,12 @@ public class UserController {
         //根据前端传来的uid查询该用户
         Set<Integer> roleByUserId = roleService.findRoleByUserId(id);
         for (Map<String, Object> mapRoleId:mapList){
-            String checkArr="0";//不选中
+            boolean checkArr=false;//不选中
             //取出所有角色的id
             int roleId = (int) mapRoleId.get("id");
             for (Integer currentRoleId:roleByUserId){
                 if(roleId == currentRoleId){
-                   checkArr="1";
+                   checkArr=true;
                    break;
                 }
             }
@@ -209,7 +203,13 @@ public class UserController {
 
         return new DataGridViewResult(Long.valueOf(mapList.size()),mapList);
     }
-
+    @RequestMapping("/saveUserRole")
+    public JSONResult saveUserRole(int userId,String roleIds){
+        if (userService.saveUserRole(userId,roleIds)){
+            return SystemConstant.DISTRIBUTE_ROLE_SUCCESS;
+        }
+        return SystemConstant.DISTRIBUTE_ROLE_FALSE;
+    }
 
 }
 
