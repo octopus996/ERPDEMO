@@ -9,6 +9,7 @@ import com.zyd.sys.Vo.UserVo;
 import com.zyd.sys.entity.Log;
 
 
+import com.zyd.sys.entity.Permission;
 import com.zyd.sys.entity.User;
 import com.zyd.sys.service.LogService;
 import com.zyd.sys.service.RoleService;
@@ -47,6 +48,8 @@ public class UserController {
     private UserService userService;
     @Resource
     private RoleService roleService;
+    @Resource
+    private Permission permission;
 
     @PostMapping("/login")
     public JSONResult login(String loginname, String pwd, HttpServletRequest request){

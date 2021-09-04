@@ -8,6 +8,8 @@ import com.zyd.sys.Vo.PermissionVo;
 import com.zyd.sys.entity.Permission;
 import com.zyd.sys.entity.User;
 import com.zyd.sys.service.PermissionService;
+import com.zyd.sys.service.RoleService;
+import com.zyd.sys.service.UserService;
 import com.zyd.sys.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -24,6 +25,10 @@ import java.util.List;
 public class MenuController {
     @Resource
     private PermissionService permissionService;
+    @Resource
+    private UserService userService;
+    @Resource
+    private RoleService roleService;
 
     /**
      * 加载首页左侧菜单树
@@ -51,6 +56,20 @@ public class MenuController {
         }else {
             //普通用户需要按照角色何权限查询
            permissions  = permissionService.list(queryWrapper);
+           //根据用户id查询该用户所拥有的角色id
+            Set<Integer> currentRoleIds = roleService.findRoleByUserId(loginUser.getId());
+            //创建一个存权限id的set集合
+            Set<Integer> permissionSet=new HashSet<>();
+            //更具角色id查询用户哪些权限
+            for (Integer currentRoleId : currentRoleIds) {
+                List<Integer> rolePermissionByRoleId = permissionService.findRolePermissionByRoleId(currentRoleId);
+                permissionSet.addAll(rolePermissionByRoleId);
+            }
+            //判断权限是否存在
+            if (permissionSet!=null && permissionSet.size()>0){
+                queryWrapper.in("id",permissionSet);
+                permissionService.list(queryWrapper);
+            }
         }
         //创建集合保存树节点
         List<TreeNode> treeNodes=new ArrayList<TreeNode>();
