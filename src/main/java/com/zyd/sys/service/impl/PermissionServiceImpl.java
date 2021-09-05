@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -37,5 +38,10 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public List<Integer> findRolePermissionByRoleId(int roleId) {
         return permissionMapper.findRolePermissionByRoleId(roleId);
+    }
+
+    @Override
+    public Set<Integer> findPermissionIdsByRoleId(Integer roleId) {
+        return permissionMapper.findPermissionIdsByRoleId(roleId);
     }
 }

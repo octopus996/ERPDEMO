@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -26,4 +27,7 @@ public interface PermissionMapper extends BaseMapper<Permission> {
 
     @Select("select pid from sys_role_permission where rid=#{roleId}")
     List<Integer> findRolePermissionByRoleId(int roleId);
+
+    @Select("select pid from sys_role_permission where rid=#{roleId}")
+    Set<Integer> findPermissionIdsByRoleId(Integer roleId);
 }

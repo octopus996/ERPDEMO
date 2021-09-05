@@ -61,13 +61,13 @@ public class MenuController {
             Set<Integer> permissionSet=new HashSet<>();
             //更具角色id查询用户哪些权限
             for (Integer currentRoleId : currentRoleIds) {
-                List<Integer> rolePermissionByRoleId = permissionService.findRolePermissionByRoleId(currentRoleId);
+                Set<Integer> rolePermissionByRoleId = permissionService.findPermissionIdsByRoleId(currentRoleId);
                 permissionSet.addAll(rolePermissionByRoleId);
             }
             //判断权限是否存在
             if (permissionSet!=null && permissionSet.size()>0){
                 queryWrapper.in("id",permissionSet);
-                permissionService.list(queryWrapper);
+                permissions=permissionService.list(queryWrapper);
             }
         }
         //创建集合保存树节点

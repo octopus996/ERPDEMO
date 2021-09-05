@@ -64,11 +64,11 @@ public class UserRealm  extends AuthorizingRealm {
                 //根据用户id查询当前用户所拥有的角色id
                 Set<Integer> roleIdSet = roleService.findRoleByUserId(user.getId());
                 //创建一个存放权限的set集合
-                Set<Permission> permissionSet=new HashSet<>();
+                Set<Integer> permissionSet=new HashSet<>();
                 //更具角色id查询所用户哪些权限
                 for (Integer roleId : roleIdSet) {
-                    permissionService.findRolePermissionByRoleId(roleId);
-                    permissionSet.addAll(permissionSet);
+                    Set<Integer> permissionids =permissionService.findPermissionIdsByRoleId(roleId);
+                    permissionSet.addAll(permissionids);
                 }
                 //创建一个保存权限菜单的list集合
                 List<Permission> list=new ArrayList<Permission>();
