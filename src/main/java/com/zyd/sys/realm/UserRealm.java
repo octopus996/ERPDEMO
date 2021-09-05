@@ -122,6 +122,6 @@ public class UserRealm  extends AuthorizingRealm {
             }
 
         }
-        return null;
+        return simpleAuthorizationInfo;
     }
 }

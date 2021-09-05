@@ -25,8 +25,7 @@ import java.util.List;
 public class MenuController {
     @Resource
     private PermissionService permissionService;
-    @Resource
-    private UserService userService;
+
     @Resource
     private RoleService roleService;
 
@@ -55,7 +54,7 @@ public class MenuController {
 
         }else {
             //普通用户需要按照角色何权限查询
-           permissions  = permissionService.list(queryWrapper);
+           //permissions  = permissionService.list(queryWrapper);
            //根据用户id查询该用户所拥有的角色id
             Set<Integer> currentRoleIds = roleService.findRoleByUserId(loginUser.getId());
             //创建一个存权限id的set集合

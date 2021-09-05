@@ -3,17 +3,19 @@ package com.zyd.sys.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
- * @author zyd
- * @since 2021-07-29
+ * @author KazuGin
+ * @since 2019-12-24
  */
+@Component
 @TableName("sys_permission")
 public class Permission implements Serializable {
 
@@ -154,16 +156,16 @@ public class Permission implements Serializable {
     @Override
     public String toString() {
         return "Permission{" +
-        "id=" + id +
-        ", pid=" + pid +
-        ", type=" + type +
-        ", title=" + title +
-        ", percode=" + percode +
-        ", icon=" + icon +
-        ", href=" + href +
-        ", open=" + open +
-        ", ordernum=" + ordernum +
-        ", available=" + available +
-        "}";
+                "id=" + id +
+                ", pid=" + pid +
+                ", type=" + type +
+                ", title=" + title +
+                ", percode=" + percode +
+                ", icon=" + icon +
+                ", href=" + href +
+                ", open=" + open +
+                ", ordernum=" + ordernum +
+                ", available=" + available +
+                "}";
     }
 }
