@@ -8,6 +8,8 @@ import com.zyd.bus.Vo.CustomerVo;
 import com.zyd.bus.entity.Customer;
 import com.zyd.bus.service.CustomerService;
 import com.zyd.common.util.DataGridViewResult;
+import com.zyd.common.util.JSONResult;
+import com.zyd.common.util.SystemConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -48,5 +50,14 @@ public class CustomerController {
         return  new DataGridViewResult(page.getTotal(),page.getRecords());
     }
 
+    @RequestMapping("/addCustomer")
+    public JSONResult addCustomer(Customer customer){
+
+        if (customerService.save(customer)){
+            return SystemConstant.ADD_SUCCESS;
+        }else{
+            return SystemConstant.ADD_ERROR;
+        }
+    }
 }
 
