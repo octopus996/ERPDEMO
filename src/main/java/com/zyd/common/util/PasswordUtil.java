@@ -1,4 +1,4 @@
-package com.zyd.sys.util;
+package com.zyd.common.util;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.crypto.hash.Sha1Hash;

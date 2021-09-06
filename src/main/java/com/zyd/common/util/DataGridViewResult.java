@@ -1,4 +1,4 @@
-package com.zyd.sys.util;
+package com.zyd.common.util;
 
 /**
  * layui 数据表格类

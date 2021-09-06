@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyd.sys.Vo.PermissionVo;
 import com.zyd.sys.entity.Permission;
 import com.zyd.sys.service.PermissionService;
-import com.zyd.sys.util.DataGridViewResult;
-import com.zyd.sys.util.JSONResult;
-import com.zyd.sys.util.SystemConstant;
+import com.zyd.common.util.DataGridViewResult;
+import com.zyd.common.util.JSONResult;
+import com.zyd.common.util.SystemConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 

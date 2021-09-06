@@ -1,4 +1,4 @@
-package com.zyd.sys.util;
+package com.zyd.common.util;
 
 import java.util.ArrayList;
 import java.util.List;

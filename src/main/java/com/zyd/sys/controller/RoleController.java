@@ -10,10 +10,10 @@ import com.zyd.sys.entity.Role;
 
 import com.zyd.sys.service.PermissionService;
 import com.zyd.sys.service.RoleService;
-import com.zyd.sys.util.DataGridViewResult;
-import com.zyd.sys.util.JSONResult;
+import com.zyd.common.util.DataGridViewResult;
+import com.zyd.common.util.JSONResult;
 import com.zyd.common.util.SystemConstant;
-import com.zyd.sys.util.TreeNode;
+import com.zyd.common.util.TreeNode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
