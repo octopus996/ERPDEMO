@@ -1,7 +1,6 @@
 package com.zyd.sys.controller;
 
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,10 +12,9 @@ import com.zyd.sys.service.PermissionService;
 import com.zyd.sys.service.RoleService;
 import com.zyd.sys.util.DataGridViewResult;
 import com.zyd.sys.util.JSONResult;
-import com.zyd.sys.util.SystemConstant;
+import com.zyd.common.util.SystemConstant;
 import com.zyd.sys.util.TreeNode;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 

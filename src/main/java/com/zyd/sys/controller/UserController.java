@@ -14,7 +14,7 @@ import com.zyd.sys.entity.User;
 import com.zyd.sys.service.LogService;
 import com.zyd.sys.service.RoleService;
 import com.zyd.sys.service.UserService;
-import com.zyd.sys.util.*;
+import com.zyd.common.util.*;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
