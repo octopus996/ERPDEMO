@@ -9,9 +9,8 @@ import com.zyd.sys.Vo.NoticeVo;
 import com.zyd.sys.entity.Notice;
 import com.zyd.sys.entity.User;
 import com.zyd.sys.service.NoticeService;
-import com.zyd.sys.util.DataGridViewResult;
-import com.zyd.sys.util.JSONResult;
-import com.zyd.sys.util.SystemConstant;
+import com.zyd.common.util.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

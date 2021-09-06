@@ -10,7 +10,7 @@ import com.zyd.sys.entity.User;
 import com.zyd.sys.service.PermissionService;
 import com.zyd.sys.service.RoleService;
 import com.zyd.sys.service.UserService;
-import com.zyd.sys.util.*;
+import com.zyd.common.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -8,10 +8,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyd.sys.Vo.DeptVo;
 import com.zyd.sys.entity.Dept;
 import com.zyd.sys.service.DeptService;
-import com.zyd.sys.util.DataGridViewResult;
-import com.zyd.sys.util.JSONResult;
-import com.zyd.sys.util.SystemConstant;
-import com.zyd.sys.util.TreeNode;
+import com.zyd.common.util.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
