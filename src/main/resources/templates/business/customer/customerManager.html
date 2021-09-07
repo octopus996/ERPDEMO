@@ -56,9 +56,6 @@
         <button type="button" lay-event="delete" class="layui-btn layui-btn-sm layui-btn-danger">
             <span class="layui-icon layui-icon-delete"></span>删除
         </button>
-        <button type="button" lay-event="selectRolePermission" class="layui-btn layui-btn-sm">
-            <span class="layui-icon layui-icon-about"></span>分配权限
-        </button>
     </div>
 </div>
 <!-- 数据表格结束 -->
@@ -183,7 +180,7 @@
                 ,{field:'account',title:'账号',align: 'center', width:180}
                 ,{field:'email',title:'邮箱',align: 'center', width:150}
                 ,{field:'fax',title:'传真',align: 'center', width:120}
-                ,{field:'right',title:'操作',align: 'center',toolbar:"#customerRowBar",width: 300}
+                ,{field:'right',title:'操作',align: 'center',toolbar:"#customerRowBar",width: 300,fixed:'right'}
 
             ] ]
             ,done:function (res,curr,count) {

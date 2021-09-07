@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
  * <p>
@@ -50,6 +51,11 @@ public class CustomerController {
         return  new DataGridViewResult(page.getTotal(),page.getRecords());
     }
 
+    /**
+     * 增加客户
+     * @param customer
+     * @return
+     */
     @RequestMapping("/addCustomer")
     public JSONResult addCustomer(Customer customer){
 
@@ -59,5 +65,47 @@ public class CustomerController {
             return SystemConstant.ADD_ERROR;
         }
     }
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @RequestMapping("/batchDelete")
+    public JSONResult batchDelete(String ids){
+        String[] idStr=ids.split(",");
+        if (customerService.removeByIds(Arrays.asList(idStr))){
+            return SystemConstant.DELETE_SUCCESS;
+        }
+        return SystemConstant.DELETE_ERROR;
+
+    }
+
+    /**
+     * 根据id删除
+     * @param id
+     * @return
+     */
+    @RequestMapping("deleteById")
+    public JSONResult deleteById(Integer id){
+        if (customerService.removeById(id)){
+            return SystemConstant.DELETE_SUCCESS;
+        }
+        return SystemConstant.DELETE_ERROR;
+    }
+
+    /**
+     * 更新客户信息
+     * @param customer
+     * @return
+     */
+    @RequestMapping("updateCustomer")
+    public JSONResult updateCustomer(Customer  customer){
+        if (customerService.updateById(customer)){
+            return SystemConstant.UPDATE_SUCCESS;
+        }
+        return SystemConstant.UPDATE_ERROR;
+    }
+
 }
 
