@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -22,17 +22,12 @@
         <form class="layui-form" >
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">部门名称</label>
+                    <label class="layui-form-label">商品名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="title" id="title" class="layui-input searchVal" placeholder="请输入部门名称" />
+                        <input type="text" name="title" id="title" class="layui-input searchVal" placeholder="请输入商品名称" />
                     </div>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">部门地址</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="address" id="address" class="layui-input searchVal" placeholder="请输入地址" />
-                    </div>
-                </div>
+
                 <div class="layui-inline">
                     <button type="button" class="layui-btn" lay-submit lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>
                     <button type="reset" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
@@ -46,15 +41,17 @@
 
 <!-- 数据表格开始 -->
 <div>
-    <table class="layui-hide" id="deptTable" lay-filter="deptTable"></table>
+    <table class="layui-hide" id="goodstypeTable" lay-filter="goodstypeTable"></table>
     <!-- 工具栏 -->
-    <div id="deptToolBar" style="display: none;">
-        <button type="button"  class="layui-btn layui-btn-sm" lay-event="add"><span class="layui-icon layui-icon-add-1"></span>添加部门</button>
+    <div id="goodstypeToolBar" style="display: none;">
+        <button type="button"  class="layui-btn layui-btn-sm" lay-event="add">
+            <span class="layui-icon layui-icon-add-1"></span>添加商品类型
+        </button>
     </div>
 
-    <div id="deptRowBar" style="display: none;">
+    <div id="goodstypeRowBar" style="display: none;">
         <button type="button" class="layui-btn layui-btn-sm" lay-event="update"><span class="layui-icon layui-icon-edit"></span>更新</button>
-        <button type="button"  class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete"><span class="layui-icon layui-icon-delete"></span>删除</button>
+        <button type="reset"  class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete" ><span class="layui-icon layui-icon-delete"></span>删除</button>
     </div>
 </div>
 <!-- 数据表格结束 -->
@@ -63,29 +60,24 @@
 <div  style="display: none;padding: 5px" id="addOrUpdateDiv">
     <form class="layui-form" style="width:90%;" id="dataFrm" lay-filter="dataFrm">
         <div class="layui-form-item">
-            <label class="layui-form-label">父级部门</label>
+            <label class="layui-form-label">父级路径</label>
             <div class="layui-input-block">
-                <input type="hidden" name = "pid">
-                <ul id="deptTree" class="dtree" data-id="0"></ul>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">部门名称</label>
-            <div class="layui-input-block">
+                <!-- 隐藏域，保存选中的商品编号 -->
                 <input type="hidden" name="pid" id="pid">
-                <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="请输入部门名称" class="layui-input">
+                <ul id="goodstypeTree" class="dtree" data-id="0"></ul>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">部门地址</label>
+            <label class="layui-form-label">商品名称</label>
             <div class="layui-input-block">
-                <!--部门id-->
-                <input type = "hidden" name = "id">
-                <input type="text" name="address" lay-verify="required" autocomplete="off" placeholder="请输入部门地址" class="layui-input">
+                <!-- 商品编号 -->
+                <input type="hidden" name="id">
+                <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="请输入商品目录名称" class="layui-input">
             </div>
         </div>
+
         <div class="layui-form-item">
-            <label class="layui-form-label">部门备注</label>
+            <label class="layui-form-label">商品备注</label>
             <div class="layui-input-block">
                 <textarea class="layui-textarea" name="remark" id="content"></textarea>
             </div>
@@ -102,7 +94,7 @@
 
         <div class="layui-form-item layui-row layui-col-xs12">
             <div class="layui-input-block" style="text-align: center;">
-                <button type="button" class="layui-btn"  lay-submit lay-filter="doSubmit"><span class="layui-icon layui-icon-add-1"></span>提交</button>
+                <button type="button" class="layui-btn" lay-submit lay-filter="doSubmit" ><span class="layui-icon layui-icon-add-1"></span>提交</button>
                 <button type="reset" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
             </div>
         </div>
@@ -125,38 +117,41 @@
         var layer=layui.layer;
         var dtree = layui.dtree;
 
-        //渲染数据
+        //渲染数据表格
         tableIns = table.render({
-            elem: '#deptTable'
-            ,url:'/sys/dept/deptlist'
-            ,toolbar:'#deptToolBar'
-            ,title:'部门数据表'
-            ,height: 'full-110'
+            elem: '#goodstypeTable'//绑定表格组件的id元素
+            ,url:'/bus/goodstype/goodstypelist'//数据发送的请求路径
+            ,toolbar: '#goodstypeToolBar' //开启头部工具栏，并为其绑定左侧模板
+            ,title: '商品类型数据表'
+            ,height:'full-100'
             ,page: true
             ,cols: [ [
-                {type:'checkbox',align:'left'}
-                ,{field:'id',title:'ID',align: 'center',width : 60}
-                ,{field:'title',title:'部门名称',align: 'center'}
-                ,{field:'address',title:'部门地址',align: 'center'}
-                ,{field:'open',title:'是否展开',align: 'center',templet:function (d) {
-                        return d.open == 1 ? "<font color='#00bfff'>是</font>" : "<font color='red'>否</font>";
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'id', title:'ID',align:'center',width:50}
+                ,{field:'title', title:'商品名称',align:'center'}
+
+                ,{field:'open', title:'是否展开',align:'center',templet:function (d) {
+                        return d.open==0?"<span style='color:red'>否</span>":"<span style='color:blue'>是</span>";
                     }}
-                ,{field:'createtime',title:'创建时间',align: 'center',width : 180}
-                ,{field:'remark',title:'备注',align: 'center'}
-                ,{field:'right',title:'操作',align: 'center',toolbar:"#deptRowBar",width : 200}
+
+                ,{field:'remark', title:'备注',align:'center'}
+                ,{field:'right', title:'操作',align:'center',toolbar:"#goodstypeRowBar",width:200,fixed:'right'}
             ] ]
+            //回调函数
             ,done:function (res,curr,count) {
-                //非第一页，当前页无数据
+                // 判断当前页码是否大于1
                 if(curr>1 && res.data.length == 0){
                     //当前页码-1
                     var pageValue = curr - 1;
                     tableIns.reload({
-                        page:{curr:pageValue}   //修改页码
-                    });
+                        page:{curr:pageValue}// 修改页码
+                    })
                 }
             }
         });
-        //监听模糊查询按钮提交事件
+
+
+        //监听模糊查询按钮点击事件
         form.on("submit(doSearch)",function (data) {
             tableIns.reload({
                 where:data.field,
@@ -165,147 +160,159 @@
                 }
             });
         });
-        //监听头部工具栏
-        table.on("toolbar(deptTable)",function (obj) {
+
+        //头部工具栏监听事件
+        table.on("toolbar(goodstypeTable)",function (obj) {
             switch (obj.event) {
                 case 'add':
-                    openAddDeptWindow();
+                    openAddgoodstypeWindow();
                     break;
             }
         });
+
         //弹出层索引，提交路径
         var mainIndex,url;
 
-        //打开窗口
-        function openAddDeptWindow() {
+        //打开添加商品窗口
+        function openAddgoodstypeWindow() {
             mainIndex = layer.open({
                 type:1,
-                title:"添加部门",
+                title:"添加商品",
                 area:["800px","500px"],
-                content:$("#addOrUpdateDiv"),   //引用的内容窗口
+                content:$("#addOrUpdateDiv"),//引用的内容窗口
                 success:function () {
                     //清空表单数据
                     $("#dataFrm")[0].reset();
-                    //添加提交的路径
-                    url = "/sys/dept/addDept"
+                    //添加的提交请求
+                    url = "/bus/goodstype/addgoodstype";
+
                 }
 
             });
+
         }
-        //初始化父级部门的下拉菜单树
-        var deptTree = dtree.renderSelect({
+
+        //初始化父级商品的下拉菜单树
+        var  goodstypeSelectTree = dtree.renderSelect({
             width:"100%",
-            elem:"#deptTree", //根据ID进行绑定
-            url:"/sys/dept/loadDeptTreeLeft",
-            dataStyle:"layuiStyle",
-            response:{message:"msg",statusCode:0},
+            elem:"#goodstypeTree",
+            url:"/bus/goodstype/loadgoodstypeTreeLeft",
+            dataStyle: "layuiStyle",  //使用layui风格的数据格式
+            response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
             dataFormat:"list"
         });
-        //创造隐藏域，监听...
-        dtree.on("node(deptTree)",function (obj) {
+
+        //监听下拉树的选中事件
+        dtree.on("node(goodstypeTree)",function (obj) {
+            //将选中的商品id赋值给隐藏域，用于保存父级商品id
             $("#pid").val(obj.param.nodeId);
         });
 
 
-        //监听提交事件
+        //监听表单的提交事件
         form.on("submit(doSubmit)",function (data) {
-            $.post(url,data.field,function (result) {
+            $.post(url,data.field,function(result){
                 if(result.success){
                     //刷新数据表格
                     tableIns.reload();
                     //刷新下拉菜单树
-                    deptTree.reload();
-                    //刷新左侧下拉树
-                    window.parent.left.deptTree.reload();
+                    goodstypeSelectTree.reload();
+                    //刷新左侧菜单树
+                    window.parent.left.reload();
+
                 }
-                //显示提示
+
+                //显示提示信息
                 layer.msg(result.message);
                 //关闭当前窗口
                 layer.close(mainIndex);
-
             },"json");
-            return false;          //AJAX只做一半，不让跳转
+
+            return false;
         });
-        //绑定监听行工具栏
-        table.on("tool(deptTable)",function (obj) {
+
+
+        //监听行工具栏事件
+        table.on("tool(goodstypeTable)",function (obj) {
             switch (obj.event) {
                 case 'update':
-                    openUpdateDeptWindows(obj.data);
+                    openUpdategoodstypeWindow(obj.data);
                     break;
                 case 'delete':
-                    opendeleteDeptWindows(obj.data);
+                    //删除商品
+                    deletegoodstype(obj.data);
                     break;
             }
         });
 
-        //打开修改窗口
-        function openUpdateDeptWindows(data) {
+        //修改商品
+        function openUpdategoodstypeWindow(data) {
             mainIndex = layer.open({
                 type:1,
-                title:"修改部门",
+                title:"更新商品",
                 area:["800px","500px"],
-                content:$("#addOrUpdateDiv"),   //引用的内容窗口
+                content:$("#addOrUpdateDiv"),//引用的内容窗口
                 success:function () {
-                    //回显表单数据
+                    //表单数据回显
                     form.val("dataFrm",data);
                     //树节点回显
-                    dtree.dataInit("deptTree",data.pid);
-                    dtree.setSelectValue("deptTree");
-                    //添加提交的路径
-                    url = "/sys/dept/updateDept"
+                    dtree.dataInit("goodstypeTree",data.pid);//父节点
+                    dtree.setSelectValue("goodstypeTree");
+                    //添加的提交请求
+                    url = "/bus/goodstype/updategoodstype";
                 }
-
             });
+
+
         }
 
-        //打开删除提示窗口
-        function opendeleteDeptWindows(data) {
-            //有子不删
-            $.post("/sys/dept/checkDeptHasChild",{"id":data.id},function (result) {
+        /**
+         * 删除商品
+         * @param data  当前行的所有数据
+         */
+        function deletegoodstype(data) {
+            //判断该商品下是否有子节点，如果有子节点则提示无法删除，否则直接删除当前节点
+            $.post("/bus/goodstype/checkgoodstypeHasChildren",{"id":data.id},function(result){
                 if(result.exist){
                     layer.msg(result.message);
                 }else{
-                    //不存在则直接删除、又要发送请求
-                    //提示是否删除
-                    layer.confirm("确定要删除这数据吗？",{icon: 3,title: '提示'},function (index) {
-                        //先获取数据
-                        var checkData = data.data;
-                        //再获取所选数据中行id
-                        var idArr = [];    //声明数组这么神奇的吗
-                        for(var i = 0; i < length; i++){
-                            idArr.push(checkData[i].id);
-                        }
-                        //id数组
-                        var ids = idArr.join(",");
-                        //发送删除的请求
-                        $.post("/sys/dept/deleteDept",{"id":data.id},function (result) {
-                            //判断是否成功
+                    //不存在则直接删除
+                    layer.confirm("确定要删除这条数据吗?",{"icon":3,"title":"提示"},function (index) {
+                        $.post("/bus/goodstype/deleteById",{"id":data.id},function (result) {
                             if(result.success){
                                 //刷新数据表格
                                 tableIns.reload();
                                 //刷新下拉菜单树
-                                deptTree.reload();
-                                //刷新左侧下拉树
-                                window.parent.left.deptTree.reload();
+                                goodstypeSelectTree.reload();
+                                //刷新左侧菜单树
+                                window.parent.left.reload();
                             }
-                            lay.msg(result.message);
+                            //显示提示信息
+                            layer.msg(result.message);
                         },"json");
+                        //关闭弹框
                         layer.close(index);
-                    });
+                    })
                 }
             },"json");
         }
 
     });
-    //供左页面调用的方法
-    function loadTableData(deptId) {
+
+
+    /**
+     * 加载数据表格的方法
+     * @param goodstypeId
+     */
+    function loadTableData(goodstypeId) {
         tableIns.reload({
-            where:{"id":deptId},
+            where:{"id":goodstypeId},
             page:{
                 curr:1
             }
         });
     }
+
 
 </script>
 </body>

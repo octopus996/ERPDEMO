@@ -24,10 +24,13 @@ public class BusinessController {
     public String toGoodsTypeManager(){
         return "business/goodstype/goodstypeManager";
     }
-    @RequestMapping("toGoodsTypeLeft")
+
+    @RequestMapping("/toGoodsTypeLeft")
     public String toGoodsTypeLeft(){
         return "business/goodstype/left";
-    }@RequestMapping("toGoodsTypeRight")
+    }
+
+    @RequestMapping("/toGoodsTypeRight")
     public String toGoodsTypeRight(){
         return "business/goodstype/right";
     }
