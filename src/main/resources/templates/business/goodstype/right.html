@@ -218,8 +218,9 @@
                     //刷新下拉菜单树
                     goodstypeSelectTree.reload();
                     //刷新左侧菜单树
-                    window.parent.left.reload();
-
+                    /*window.parent.left.reload();*/
+                    //从子页面执行刷新父页面操作
+                    parent.location.reload();
                 }
 
                 //显示提示信息

@@ -74,7 +74,12 @@ public class GoodsTypeController {
         //创建条件构造器
         QueryWrapper<GoodsType> queryWrapper=new QueryWrapper<>();
         //模糊查询商品名称
-        queryWrapper.like(StringUtils.isNotEmpty(goodsTypeVo.getTitle()),"titile",goodsTypeVo.getTitle());
+        if (goodsTypeVo.getTitle() != null && goodsTypeVo.getTitle().length()>0){
+            queryWrapper.like(StringUtils.isNotEmpty(goodsTypeVo.getTitle()),"title",goodsTypeVo.getTitle());
+        }
+        //
+        queryWrapper.eq((goodsTypeVo.getId()!=null),"id",goodsTypeVo.getId()).or().
+                eq((goodsTypeVo.getPid()!=null),"pid",goodsTypeVo.getPid());
         //调用分页构造器
         goodsTypeService.page(page,queryWrapper);
 

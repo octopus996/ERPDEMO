@@ -1,5 +1,6 @@
 package com.zyd.sys.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zyd.sys.Vo.UserVo;
 import com.zyd.sys.entity.User;
@@ -25,7 +26,7 @@ public interface UserService extends IService<User> {
      */
     User findUserByName(String userName) throws Exception;
 
-    IPage<User> findUserListByPage(IPage<User> page,UserVo userVo);
+    IPage<User> findUserListByPage(IPage<User> page, UserVo userVo);
 
     boolean saveUserRole(int userId, String roleIds);
 
