@@ -286,7 +286,8 @@
                                 //刷新下拉菜单树
                                 goodstypeSelectTree.reload();
                                 //刷新左侧菜单树
-                                window.parent.left.reload();
+                                /*window.parent.left.reload();*/
+                                parent.location.reload();
                             }
                             //显示提示信息
                             layer.msg(result.message);
