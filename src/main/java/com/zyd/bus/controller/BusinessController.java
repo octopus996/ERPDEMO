@@ -34,4 +34,23 @@ public class BusinessController {
     public String toGoodsTypeRight(){
         return "business/goodstype/right";
     }
+
+    /**
+     * 去到商品管理页面
+     * @return
+     */
+    @RequestMapping("/toGoodsManager")
+    public String toGoodsManager(){
+        return "business/goods/goodsManager";
+    }
+
+    @RequestMapping("/toGoodsLeft")
+    public String toGoodsLeft(){
+        return "business/goods/left";
+
+    }
+    @RequestMapping("/toGoodsRight")
+    public String toGoodsRight(){
+        return "business/goods/right";
+    }
 }

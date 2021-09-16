@@ -79,9 +79,11 @@ public class GoodsTypeController {
         if (goodsTypeVo.getTitle() != null && goodsTypeVo.getTitle().length()>0){
             queryWrapper.like(StringUtils.isNotEmpty(goodsTypeVo.getTitle()),"title",goodsTypeVo.getTitle());
         }
-        //
+        //通过点击商品左侧商品类型树节点查询商品类型
         queryWrapper.eq((goodsTypeVo.getId()!=null),"id",goodsTypeVo.getId()).or().
-                eq((goodsTypeVo.getPid()!=null),"pid",goodsTypeVo.getPid());
+                eq((goodsTypeVo.getId()!=null),"pid",goodsTypeVo.getId());
+        //按照id升序排列
+        queryWrapper.orderByAsc("id");
         //调用分页构造器
         goodsTypeService.page(page,queryWrapper);
 

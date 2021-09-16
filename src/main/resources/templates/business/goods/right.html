@@ -22,9 +22,9 @@
         <form class="layui-form" >
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">类型名称</label>
+                    <label class="layui-form-label">商品名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="title" id="title" class="layui-input searchVal" placeholder="请输入商品类型名称" />
+                        <input type="text" name="title" id="title" class="layui-input searchVal" placeholder="请输入商品名称" />
                     </div>
                 </div>
 
@@ -41,15 +41,15 @@
 
 <!-- 数据表格开始 -->
 <div>
-    <table class="layui-hide" id="goodstypeTable" lay-filter="goodstypeTable"></table>
+    <table class="layui-hide" id="goodsTable" lay-filter="goodsTable"></table>
     <!-- 工具栏 -->
-    <div id="goodstypeToolBar" style="display: none;">
+    <div id="goodsToolBar" style="display: none;">
         <button type="button"  class="layui-btn layui-btn-sm" lay-event="add">
-            <span class="layui-icon layui-icon-add-1"></span>添加商品类型
+            <span class="layui-icon layui-icon-add-1"></span>添加商品
         </button>
     </div>
 
-    <div id="goodstypeRowBar" style="display: none;">
+    <div id="goodsRowBar" style="display: none;">
         <button type="button" class="layui-btn layui-btn-sm" lay-event="update"><span class="layui-icon layui-icon-edit"></span>更新</button>
         <button type="reset"  class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete" ><span class="layui-icon layui-icon-delete"></span>删除</button>
     </div>
@@ -63,12 +63,13 @@
             <label class="layui-form-label">父级路径</label>
             <div class="layui-input-block">
                 <!-- 隐藏域，保存选中的商品编号 -->
-                <input type="hidden" name="pid" id="pid">
-                <ul id="goodstypeTree" class="dtree" data-id="0"></ul>
+                <input type="hidden" name="id" id="id">
+                <ul id="goodsTree" class="dtree" data-id="0"></ul>
             </div>
         </div>
+        
         <div class="layui-form-item">
-            <label class="layui-form-label">类型名称</label>
+            <label class="layui-form-label">商品名称</label>
             <div class="layui-input-block">
                 <!-- 商品编号 -->
                 <input type="hidden" name="id">
@@ -119,23 +120,23 @@
 
         //渲染数据表格
         tableIns = table.render({
-            elem: '#goodstypeTable'//绑定表格组件的id元素
-            ,url:'/bus/goodstype/goodstypelist'//数据发送的请求路径
-            ,toolbar: '#goodstypeToolBar' //开启头部工具栏，并为其绑定左侧模板
-            ,title: '商品类型数据表'
+            elem: '#goodsTable'//绑定表格组件的id元素
+            ,url:'/bus/goods/goodslist'//数据发送的请求路径
+            ,toolbar: '#goodsToolBar' //开启头部工具栏，并为其绑定左侧模板
+            ,title: '商品数据表'
             ,height:'full-100'
             ,page: true
             ,cols: [ [
                 {type: 'checkbox', fixed: 'left'}
                 ,{field:'id', title:'ID',align:'center',width:50}
-                ,{field:'title', title:'类型名称',align:'center'}
+                ,{field:'title', title:'商品名称',align:'center'}
 
                 ,{field:'open', title:'是否展开',align:'center',templet:function (d) {
                         return d.open==0?"<span style='color:red'>否</span>":"<span style='color:blue'>是</span>";
                     }}
 
                 ,{field:'remark', title:'备注',align:'center'}
-                ,{field:'right', title:'操作',align:'center',toolbar:"#goodstypeRowBar",width:200,fixed:'right'}
+                ,{field:'right', title:'操作',align:'center',toolbar:"#goodsRowBar",width:200,fixed:'right'}
             ] ]
             //回调函数
             ,done:function (res,curr,count) {
@@ -162,10 +163,10 @@
         });
 
         //头部工具栏监听事件
-        table.on("toolbar(goodstypeTable)",function (obj) {
+        table.on("toolbar(goodsTable)",function (obj) {
             switch (obj.event) {
                 case 'add':
-                    openAddgoodstypeWindow();
+                    openAddgoodsWindow();
                     break;
             }
         });
@@ -174,7 +175,7 @@
         var mainIndex,url;
 
         //打开添加商品窗口
-        function openAddgoodstypeWindow() {
+        function openAddgoodsWindow() {
             mainIndex = layer.open({
                 type:1,
                 title:"添加商品",
@@ -184,7 +185,7 @@
                     //清空表单数据
                     $("#dataFrm")[0].reset();
                     //添加的提交请求
-                    url = "/bus/goodstype/addgoodstype";
+                    url = "/bus/goods/addgoods";
 
                 }
 
@@ -193,17 +194,17 @@
         }
 
         //初始化父级商品的下拉菜单树
-        var  goodstypeSelectTree = dtree.renderSelect({
+        var  goodsSelectTree = dtree.renderSelect({
             width:"100%",
-            elem:"#goodstypeTree",
-            url:"/bus/goodstype/loadgoodstypeTreeLeft",
+            elem:"#goodsTree",
+            url:"/bus/goods/loadgoodsTreeLeft",
             dataStyle: "layuiStyle",  //使用layui风格的数据格式
             response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
             dataFormat:"list"
         });
 
         //监听下拉树的选中事件
-        dtree.on("node(goodstypeTree)",function (obj) {
+        dtree.on("node(goodsTree)",function (obj) {
             //将选中的商品id赋值给隐藏域，用于保存父级商品id
             $("#pid").val(obj.param.nodeId);
         });
@@ -216,7 +217,7 @@
                     //刷新数据表格
                     tableIns.reload();
                     //刷新下拉菜单树
-                    goodstypeSelectTree.reload();
+                    goodsSelectTree.reload();
                     //刷新左侧菜单树
                     /*window.parent.left.reload();*/
                     //从子页面执行刷新父页面操作
@@ -234,20 +235,20 @@
 
 
         //监听行工具栏事件
-        table.on("tool(goodstypeTable)",function (obj) {
+        table.on("tool(goodsTable)",function (obj) {
             switch (obj.event) {
                 case 'update':
-                    openUpdategoodstypeWindow(obj.data);
+                    openUpdategoodsWindow(obj.data);
                     break;
                 case 'delete':
                     //删除商品
-                    deletegoodstype(obj.data);
+                    deletegoods(obj.data);
                     break;
             }
         });
 
         //修改商品
-        function openUpdategoodstypeWindow(data) {
+        function openUpdategoodsWindow(data) {
             mainIndex = layer.open({
                 type:1,
                 title:"更新商品",
@@ -257,10 +258,10 @@
                     //表单数据回显
                     form.val("dataFrm",data);
                     //树节点回显
-                    dtree.dataInit("goodstypeTree",data.pid);//父节点
-                    dtree.setSelectValue("goodstypeTree");
+                    dtree.dataInit("goodsTree",data.pid);//父节点
+                    dtree.setSelectValue("goodsTree");
                     //添加的提交请求
-                    url = "/bus/goodstype/updategoodstype";
+                    url = "/bus/goods/updategoods";
                 }
             });
 
@@ -271,20 +272,20 @@
          * 删除商品
          * @param data  当前行的所有数据
          */
-        function deletegoodstype(data) {
+        function deletegoods(data) {
             //判断该商品下是否有子节点，如果有子节点则提示无法删除，否则直接删除当前节点
-            $.post("/bus/goodstype/checkgoodstypeHasChildren",{"id":data.id},function(result){
+            $.post("/bus/goods/checkgoodsHasChildren",{"id":data.id},function(result){
                 if(result.exist){
                     layer.msg(result.message);
                 }else{
                     //不存在则直接删除
                     layer.confirm("确定要删除这条数据吗?",{"icon":3,"title":"提示"},function (index) {
-                        $.post("/bus/goodstype/deleteById",{"id":data.id},function (result) {
+                        $.post("/bus/goods/deleteById",{"id":data.id},function (result) {
                             if(result.success){
                                 //刷新数据表格
                                 tableIns.reload();
                                 //刷新下拉菜单树
-                                goodstypeSelectTree.reload();
+                                goodsSelectTree.reload();
                                 //刷新左侧菜单树
                                 /*window.parent.left.reload();*/
                                 parent.location.reload();
@@ -304,11 +305,11 @@
 
     /**
      * 加载数据表格的方法
-     * @param goodstypeId
+     * @param goodsId
      */
-    function loadTableData(goodstypeId) {
+    function loadTableData(goodsId) {
         tableIns.reload({
-            where:{"id":goodstypeId},
+            where:{"id":goodsId},
             page:{
                 curr:1
             }

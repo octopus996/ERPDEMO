@@ -47,10 +47,9 @@
         dtree.on("node(goodsTypeTree)",function (obj) {
             window.parent.right.loadTableData(obj.param.nodeId);
         })
-
         //供右边调用的方法
         function reload() {
-            goodsTypeTree.reload();
+            deptTree.reload();
         }
 
 
