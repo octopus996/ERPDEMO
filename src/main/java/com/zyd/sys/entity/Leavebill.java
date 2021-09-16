@@ -3,7 +3,7 @@ package com.zyd.sys.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
+import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
@@ -44,12 +44,12 @@ public class Leavebill implements Serializable {
     /**
      * 请假开始时间
      */
-    private LocalDateTime leavetime;
+    private Date leavetime;
 
     /**
      * 创建时间
      */
-    private LocalDateTime createtime;
+    private Date createtime;
 
     /**
      * 请假人id
@@ -70,7 +70,7 @@ public class Leavebill implements Serializable {
     /**
      * 请假单提交时间
      */
-    private LocalDateTime committime;
+    private Date committime;
 
 
     public Integer getId() {
@@ -105,19 +105,19 @@ public class Leavebill implements Serializable {
         this.days = days;
     }
 
-    public LocalDateTime getLeavetime() {
+    public Date getLeavetime() {
         return leavetime;
     }
 
-    public void setLeavetime(LocalDateTime leavetime) {
+    public void setLeavetime(Date leavetime) {
         this.leavetime = leavetime;
     }
 
-    public LocalDateTime getCreatetime() {
+    public Date getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(LocalDateTime createtime) {
+    public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
 
@@ -145,11 +145,11 @@ public class Leavebill implements Serializable {
         this.checkPerson = checkPerson;
     }
 
-    public LocalDateTime getCommittime() {
+    public Date getCommittime() {
         return committime;
     }
 
-    public void setCommittime(LocalDateTime committime) {
+    public void setCommittime(Date committime) {
         this.committime = committime;
     }
 

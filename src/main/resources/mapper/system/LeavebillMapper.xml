@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyd.sys.dao.LeavebillMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zyd.sys.entity.Leavebill">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="days" property="days" />
+        <result column="leavebilltime" property="leavebilltime" />
+        <result column="createtime" property="createtime" />
+        <result column="userid" property="userid" />
+        <result column="state" property="state" />
+        <result column="checkPerson" property="checkPerson" />
+        <result column="committime" property="committime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, content, days, leavebilltime, createtime, userid, state, checkPerson, committime
+    </sql>
+    <select id="findLeaveBillList" resultType="com.zyd.sys.entity.Leavebill">
+        select l.*,u.name username,m.name mgrname
+        from sys_leavebill l
+        inner join sys_user u
+        on u.id=l.userid
+        inner join sys_user m
+        on l.checkPerson=m.id;
+    <where >
+        <if test="leavebill.userid!=null">
+            and l.userid=#{leavebill.userid}
+        </if>
+        <if test="leavebill.state!=null">
+            and l.state=#{leavebill.state}
+        </if>
+        <if test="leavebill.createtime!=null">
+            and l.createtime &gt; #{leavebill.createtime}
+        </if>
+        <if test="leavebill.createtime">
+            and l.createtime &lt; #{leavebill.createtime}
+        </if>
+    </where>
+    </select>
+
+
+</mapper>

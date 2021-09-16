@@ -120,4 +120,13 @@ public class SystemController {
     public String toUserRight(){
         return "system/user/right";
     }
+
+    /**
+     * 去到请假单模块
+     * @return
+     */
+    @RequestMapping("/toLeaveBillManager")
+    public String toLeaveBillManager(){
+        return "system/leavebill/leavebillManager";
+    }
 }
