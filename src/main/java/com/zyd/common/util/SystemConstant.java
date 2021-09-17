@@ -139,4 +139,14 @@ public interface SystemConstant {
      * 角色分配失败
      */
     JSONResult DISTRIBUTE_ROLE_FALSE = new JSONResult("角色分配失败！",false);
+    /**
+     * 请假条管理
+     * 新创建
+     */
+    Integer LEAVE_CREATED = 0;
+    /**
+     * 请假条管理
+     * 待审批
+     */
+    Integer LEAVE_CHECKING = 1;
 }

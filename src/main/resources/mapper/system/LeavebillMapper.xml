@@ -44,6 +44,7 @@
             and l.createtime &lt; #{leavebill.createtime}
         </if>
     </where>
+    order by l.createtime desc
     </select>
 
 

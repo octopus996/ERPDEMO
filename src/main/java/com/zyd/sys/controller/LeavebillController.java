@@ -4,6 +4,7 @@ package com.zyd.sys.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyd.common.util.DataGridViewResult;
+import com.zyd.common.util.JSONResult;
 import com.zyd.common.util.SystemConstant;
 import com.zyd.sys.Vo.LeavebillVo;
 import com.zyd.sys.entity.Leavebill;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * <p>
@@ -50,6 +52,31 @@ public class LeavebillController {
         return  new DataGridViewResult(leaveBillList.getTotal(),leaveBillList.getRecords());
 
     }
+    @RequestMapping("/addLeavebill")
+    public JSONResult addLeavebill(Leavebill leavebill,HttpSession session){
+        //获取当前登录对象
+        User loginUser = (User) session.getAttribute(SystemConstant.LOGINUSER);
+        //设置请假人
+        leavebill.setUserid(loginUser.getId());
+        //设置创建时间
+        leavebill.setCreatetime(new Date());
+        //设置审批人
+        leavebill.setCheckPerson(loginUser.getMgr());
+        if (leavebill.getState()!=null){
+            //新创建
+            if (leavebill.getState()==SystemConstant.LEAVE_CREATED){
+                leavebill.setState(SystemConstant.LEAVE_CREATED);
+            }else if (leavebill.getState()==SystemConstant.LEAVE_CHECKING){
+                //待审批
+                leavebill.setState(SystemConstant.LEAVE_CHECKING);
+            }
+        }
+        if (leavebillService.save(leavebill)){
+            return  SystemConstant.ADD_SUCCESS;
+        }else {
+            return SystemConstant.ADD_SUCCESS;
+        }
 
+    }
 }
 

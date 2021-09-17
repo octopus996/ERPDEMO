@@ -1,4 +1,4 @@
-package com.zyd.sys.config;
+package com.zyd.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.zyd.sys.realm.UserRealm;
