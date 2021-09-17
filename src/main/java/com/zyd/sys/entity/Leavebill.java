@@ -71,7 +71,41 @@ public class Leavebill implements Serializable {
      * 请假单提交时间
      */
     private Date committime;
+    /**
+     * 请假人
+     *
+     * 是否在数据库中存在，true存在，false不存在
+     *
+     */
+    @TableField(exist = false)
+    private String username;
+    /**
+     * 审核人
+     *
+     * 是否在数据库中存在，true存在，false不存在
+     */
+    @TableField(exist = false)
+    private String mgrname;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getMgrname() {
+        return mgrname;
+    }
+
+    public void setMgrname(String mgrname) {
+        this.mgrname = mgrname;
+    }
 
     public Integer getId() {
         return id;

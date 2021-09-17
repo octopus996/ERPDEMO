@@ -21,15 +21,18 @@
         id, title, content, days, leavebilltime, createtime, userid, state, checkPerson, committime
     </sql>
     <select id="findLeaveBillList" resultType="com.zyd.sys.entity.Leavebill">
-        select l.*,u.name username,m.name mgrname
+        select l.*,u.name as username,m.name as mgrname
         from sys_leavebill l
         inner join sys_user u
         on u.id=l.userid
         inner join sys_user m
-        on l.checkPerson=m.id;
+        on l.checkPerson=m.id
     <where >
         <if test="leavebill.userid!=null">
             and l.userid=#{leavebill.userid}
+        </if>
+        <if test="leavebill.title!=null">
+            and l.title like concat ('%',#{leavebill.title},'%')
         </if>
         <if test="leavebill.state!=null">
             and l.state=#{leavebill.state}
