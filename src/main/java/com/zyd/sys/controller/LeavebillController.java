@@ -16,12 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.net.ssl.HttpsURLConnection;
+
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * <p>

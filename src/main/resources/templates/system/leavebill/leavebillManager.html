@@ -357,7 +357,7 @@
         //批量删除，如何判断
         function batchDelete(){
             //获取选中行
-            var checkStatus = table.checkStatus('customerTable');
+            var checkStatus = table.checkStatus('leavebillTable');
 
             //获取选中的数量
             var length = checkStatus.data.length;
@@ -375,7 +375,7 @@
                     //id数组
                     var ids = idArr.join(",");
                     //发送删除的请求
-                    $.post("/bus/customer/batchDelete",{"ids":ids},function (result) {
+                    $.post("/sys/leavebill/batchDelete",{"ids":ids},function (result) {
                         //判断时候成功
                         if(result.success){
                             //成功后则刷新表格
