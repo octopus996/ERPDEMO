@@ -16,8 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -52,6 +56,14 @@ public class LeavebillController {
         return  new DataGridViewResult(leaveBillList.getTotal(),leaveBillList.getRecords());
 
     }
+
+    /**
+     * 增加请假条
+     *
+     * @param leavebill
+     * @param session
+     * @return
+     */
     @RequestMapping("/addLeavebill")
     public JSONResult addLeavebill(Leavebill leavebill,HttpSession session){
         //获取当前登录对象
@@ -78,5 +90,44 @@ public class LeavebillController {
         }
 
     }
+
+    /**
+     * 修改请假单
+     *
+     * 只能修改状态未新创建的，待审批的无法修改
+     *
+     * @param leavebill
+     * @param session
+     * @return
+     */
+    @RequestMapping("/updateLeavebill")
+    public JSONResult updateLeavebill(Leavebill leavebill, HttpSession session){
+
+            leavebill.setCreatetime(new Date());
+            if (leavebillService.updateById(leavebill)){
+                return SystemConstant.UPDATE_SUCCESS;
+            }else {
+                return SystemConstant.UPDATE_ERROR;
+            }
+
+   }
+
+    /**
+     * 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    @RequestMapping("/batchDelete")
+    public JSONResult batchDelete(String ids){
+        //拆分ids字符串
+        String[] idsStr=ids.split(",");
+        if (leavebillService.removeByIds(Arrays.asList(idsStr))){
+            return SystemConstant.DELETE_SUCCESS;
+        }else {
+            return SystemConstant.DELETE_ERROR;
+        }
+    }
 }
+
 

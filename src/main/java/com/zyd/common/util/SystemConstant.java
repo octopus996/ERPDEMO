@@ -149,4 +149,6 @@ public interface SystemConstant {
      * 待审批
      */
     Integer LEAVE_CHECKING = 1;
+
+    JSONResult DELETE_FORBIDDEN = new JSONResult("审批中......,无法修改！",false);
 }

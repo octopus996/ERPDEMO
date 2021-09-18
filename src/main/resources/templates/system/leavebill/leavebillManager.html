@@ -308,7 +308,10 @@
                         url = "/sys/leavebill/updateLeavebill";
                     }
                 });
+            }else {
+                layer.msg("只能修改状态未新创建或审核未通过的请假单！！！")
             }
+
         }
 
         //监听表单提交按钮（添加菜单和修改菜单）
